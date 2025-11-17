@@ -381,6 +381,154 @@
             }
         }
 
+        /* Bethel Carousel Styles */
+        .bethel-carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .bethel-carousel {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .bethel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            pointer-events: none;
+        }
+
+        .bethel-slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .bethel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .bethel-slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 30px 20px 20px;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            pointer-events: none;
+        }
+
+        .carousel-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .carousel-btn:hover {
+            background: rgba(0, 0, 0, 0.5);
+            transform: scale(1.1);
+        }
+
+        .carousel-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .dot.active {
+            background: white;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .bethel-carousel {
+                height: 400px;
+            }
+
+            .bethel-slide-caption {
+                font-size: 20px;
+            }
+
+            .carousel-controls {
+                padding: 15px;
+            }
+
+            .carousel-btn {
+                width: 36px;
+                height: 36px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bethel-carousel {
+                height: 300px;
+            }
+
+            .bethel-slide-caption {
+                font-size: 18px;
+                padding: 20px 15px 15px;
+            }
+        }
+
         /* Page Content */
         .area-page {
             padding-top: 104px;
@@ -676,6 +824,67 @@
             });
         }
     })();
+
+    // Bethel Carousel Functionality
+    (function() {
+        const carousel = document.querySelector('.bethel-carousel');
+        if (!carousel) return;
+
+        const slides = document.querySelectorAll('.bethel-slide');
+        const dots = document.querySelectorAll('.carousel-dots .dot');
+        const prevBtn = document.querySelector('.carousel-prev');
+        const nextBtn = document.querySelector('.carousel-next');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            // Wrap around
+            if (index >= slides.length) currentSlide = 0;
+            else if (index < 0) currentSlide = slides.length - 1;
+            else currentSlide = index;
+
+            // Update slides
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === currentSlide);
+            });
+
+            // Update dots
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        // Previous button
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                showSlide(currentSlide - 1);
+            });
+        }
+
+        // Next button
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                showSlide(currentSlide + 1);
+            });
+        }
+
+        // Dot navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
+            if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
+        });
+
+        // Auto-advance every 5 seconds
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+    })();
     </script>
 
     <!-- Page Content -->
@@ -690,6 +899,51 @@
             <!-- Proximity to Bethel Locations -->
             <section class="area-section">
                 <h2 class="area-section-title">Proximity to Bethel locations</h2>
+                
+                <!-- Bethel Locations Carousel -->
+                <div class="bethel-carousel-container">
+                    <div class="bethel-carousel">
+                        <div class="bethel-slide active">
+                            <img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=500&fit=crop" alt="Warwick Bethel" loading="lazy">
+                            <div class="bethel-slide-caption">Warwick - 20 min</div>
+                        </div>
+                        <div class="bethel-slide">
+                            <img src="https://images.unsplash.com/photo-1519974719765-e6559eac2575?w=800&h=500&fit=crop" alt="Ramapo Bethel" loading="lazy">
+                            <div class="bethel-slide-caption">Ramapo - 20 min</div>
+                        </div>
+                        <div class="bethel-slide">
+                            <img src="https://images.unsplash.com/photo-1486299267070-83823f5448dd?w=800&h=500&fit=crop" alt="Wallkill Bethel" loading="lazy">
+                            <div class="bethel-slide-caption">Wallkill - 60 min</div>
+                        </div>
+                        <div class="bethel-slide">
+                            <img src="https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?w=800&h=500&fit=crop" alt="Patterson Bethel" loading="lazy">
+                            <div class="bethel-slide-caption">Patterson - 80 min</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Carousel Controls -->
+                    <div class="carousel-controls">
+                        <button type="button" class="carousel-btn carousel-prev" aria-label="Previous">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="carousel-btn carousel-next" aria-label="Next">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Dots Indicator -->
+                    <div class="carousel-dots">
+                        <span class="dot active" data-slide="0"></span>
+                        <span class="dot" data-slide="1"></span>
+                        <span class="dot" data-slide="2"></span>
+                        <span class="dot" data-slide="3"></span>
+                    </div>
+                </div>
+                
                 <div class="distance-grid">
                     <div class="distance-item">
                         <span class="distance-location">Warwick</span>
