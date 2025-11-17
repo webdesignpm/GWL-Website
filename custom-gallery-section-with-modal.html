@@ -1,0 +1,699 @@
+<!-- Custom Gallery/Amenities/Reviews Section -->
+<style>
+    .custom-tabs-section {
+        max-width: 1200px;
+        margin: 60px auto;
+        padding: 0 20px;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Tab Navigation */
+    .tab-navigation {
+        display: flex;
+        gap: 0;
+        background: #E8F4F3;
+        border-radius: 50px;
+        padding: 8px;
+        margin-bottom: 40px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .tab-button {
+        flex: 1;
+        padding: 16px 32px;
+        border: none;
+        background: transparent;
+        color: #666;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 40px;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .tab-button:hover {
+        color: #031818;
+    }
+
+    .tab-button.active {
+        background: linear-gradient(135deg, #4AA6A4, #537BA6);
+        color: white;
+        box-shadow: 0 4px 15px rgba(74, 166, 164, 0.3);
+    }
+
+    .tab-button svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Tab Content */
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+        animation: fadeIn 0.4s;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Gallery Carousel */
+    .gallery-carousel {
+        position: relative;
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .carousel-container {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/10;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+
+    .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease;
+        height: 100%;
+    }
+
+    .carousel-slide {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .carousel-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .carousel-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 24px;
+        color: #031818;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        z-index: 10;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .carousel-nav:hover {
+        background: white;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-prev {
+        left: 20px;
+    }
+
+    .carousel-next {
+        right: 20px;
+    }
+
+    .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 20px;
+    }
+
+    .carousel-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #D0D0D0;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        padding: 0;
+    }
+
+    .carousel-dot.active {
+        background: #4AA6A4;
+        width: 30px;
+        border-radius: 5px;
+    }
+
+    /* Amenities Grid */
+    .amenities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+    }
+
+    .amenity-card {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        transition: all 0.3s;
+    }
+
+    .amenity-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .amenity-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #4AA6A4, #537BA6);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .amenity-icon svg {
+        width: 28px;
+        height: 28px;
+        color: white;
+    }
+
+    .amenity-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #031818;
+        margin-bottom: 10px;
+    }
+
+    .amenity-description {
+        font-size: 15px;
+        color: #666;
+        line-height: 1.6;
+    }
+
+    /* Reviews */
+    .reviews-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .review-card {
+        background: white;
+        padding: 35px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+    }
+
+    .review-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .review-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #4AA6A4, #537BA6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 20px;
+    }
+
+    .review-info h4 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+        color: #031818;
+    }
+
+    .review-stars {
+        color: #FFB800;
+        font-size: 16px;
+    }
+
+    .review-text {
+        font-size: 15px;
+        color: #444;
+        line-height: 1.7;
+        font-style: italic;
+    }
+
+    /* Show All Amenities Button */
+    .show-all-amenities-btn {
+        display: block;
+        margin: 40px auto 0;
+        padding: 16px 40px;
+        background: white;
+        border: 2px solid #4AA6A4;
+        color: #4AA6A4;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .show-all-amenities-btn:hover {
+        background: #4AA6A4;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(74, 166, 164, 0.3);
+    }
+
+    /* Amenities Modal */
+    .amenities-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 10000;
+        overflow-y: auto;
+        padding: 40px 20px;
+    }
+
+    .amenities-modal.active {
+        display: block;
+        animation: fadeIn 0.3s;
+    }
+
+    .amenities-modal-content {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 50px;
+        position: relative;
+    }
+
+    .amenities-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: #f0f0f0;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 24px;
+        color: #031818;
+        transition: all 0.3s;
+    }
+
+    .amenities-modal-close:hover {
+        background: #e0e0e0;
+        transform: rotate(90deg);
+    }
+
+    .amenities-modal h2 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #031818;
+        margin-bottom: 30px;
+    }
+
+    .amenities-category {
+        margin-bottom: 40px;
+    }
+
+    .amenities-category h3 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #4AA6A4;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #E8F4F3;
+    }
+
+    .amenities-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 15px;
+    }
+
+    .amenity-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px;
+        background: #F9FAFB;
+        border-radius: 10px;
+        transition: all 0.2s;
+    }
+
+    .amenity-item:hover {
+        background: #E8F4F3;
+    }
+
+    .amenity-item svg {
+        width: 20px;
+        height: 20px;
+        color: #4AA6A4;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .amenity-item-content {
+        flex: 1;
+    }
+
+    .amenity-item-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #031818;
+        margin-bottom: 3px;
+    }
+
+    .amenity-item-description {
+        font-size: 13px;
+        color: #666;
+        line-height: 1.4;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .tab-navigation {
+            flex-direction: column;
+            border-radius: 16px;
+            gap: 8px;
+        }
+
+        .tab-button {
+            padding: 14px 20px;
+            font-size: 15px;
+        }
+
+        .carousel-nav {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+        }
+
+        .carousel-prev {
+            left: 10px;
+        }
+
+        .carousel-next {
+            right: 10px;
+        }
+
+        .amenities-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .amenities-modal-content {
+            padding: 30px 20px;
+        }
+
+        .amenities-modal h2 {
+            font-size: 24px;
+        }
+
+        .amenities-list {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="custom-tabs-section">
+    <!-- Tab Navigation -->
+    <div class="tab-navigation">
+        <button class="tab-button active" data-tab="gallery">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke-width="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21" stroke-width="2"/>
+            </svg>
+            Gallery
+        </button>
+        <button class="tab-button" data-tab="amenities">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke-width="2"/>
+                <polyline points="9 22 9 12 15 12 15 22" stroke-width="2"/>
+            </svg>
+            Amenities
+        </button>
+        <button class="tab-button" data-tab="reviews">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke-width="2"/>
+            </svg>
+            Reviews
+        </button>
+    </div>
+
+    <!-- Gallery Tab -->
+    <div class="tab-content active" id="gallery-tab">
+        <div class="gallery-carousel">
+            <div class="carousel-container">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Slides will be added by JavaScript -->
+                </div>
+                <button class="carousel-nav carousel-prev" id="carouselPrev">‹</button>
+                <button class="carousel-nav carousel-next" id="carouselNext">›</button>
+            </div>
+            <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+    </div>
+
+    <!-- Amenities Tab -->
+    <div class="tab-content" id="amenities-tab">
+        <div class="amenities-grid">
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="12" cy="7" r="4" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">Sleeps 6</h3>
+                <p class="amenity-description">Comfortable accommodations for up to 6 guests with 3 bedrooms and cozy living spaces.</p>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" stroke-width="2"/>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">Full Kitchen</h3>
+                <p class="amenity-description">Fully equipped kitchen with modern appliances, cookware, and dining area for family meals.</p>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">WiFi & TV</h3>
+                <p class="amenity-description">High-speed internet and smart TV for entertainment and staying connected during your stay.</p>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="6" y1="1" x2="6" y2="4" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="10" y1="1" x2="10" y2="4" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="14" y1="1" x2="14" y2="4" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">Outdoor BBQ</h3>
+                <p class="amenity-description">Enjoy outdoor cooking with our BBQ grill and smoker in the beautiful backyard setting.</p>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">Parking</h3>
+                <p class="amenity-description">Ample parking space for multiple vehicles in the private driveway.</p>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke-width="2"/>
+                        <circle cx="12" cy="10" r="3" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">Near Bethel</h3>
+                <p class="amenity-description">Just 20 minutes from Warwick Bethel, perfect for JW friends visiting the area.</p>
+            </div>
+        </div>
+        
+        <button class="show-all-amenities-btn" id="showAllAmenitiesBtn">Show all 90+ amenities</button>
+    </div>
+
+    <!-- Reviews Tab -->
+    <div class="tab-content" id="reviews-tab">
+        <div class="reviews-container">
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">JD</div>
+                    <div class="review-info">
+                        <h4>John & Sarah D.</h4>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <p class="review-text">"Perfect location for our Bethel visit! The house was spotless, beautifully decorated, and had everything we needed. The hosts were incredibly responsive and helpful. Highly recommend!"</p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">MR</div>
+                    <div class="review-info">
+                        <h4>Maria R.</h4>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <p class="review-text">"We loved our stay! The house is even more beautiful in person. The kitchen was fully stocked, beds were comfortable, and the outdoor space was perfect for relaxing after our Bethel tour."</p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">TC</div>
+                    <div class="review-info">
+                        <h4>Thomas C.</h4>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <p class="review-text">"Excellent accommodation for our family. Close to Bethel, clean, comfortable, and the hosts made check-in/out seamless. We'll definitely be back!"</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // Gallery photos
+    const galleryPhotos = [
+        { src: 'assets/images/20.1-front-of-the-house-large.jpeg', caption: 'Front of House' },
+        { src: 'assets/images/01-living-room-large.jpeg', caption: 'Living Room' },
+        { src: 'assets/images/01.1-the-house---lr-large.jpeg', caption: 'Living Room View' },
+        { src: 'assets/images/01.2-the-house---lr-large.jpeg', caption: 'Spacious Living Area' },
+        { src: 'assets/images/01.3-the-house---lr-large.jpeg', caption: 'Cozy Living Space' },
+        { src: 'assets/images/02-the-house---master-large.jpeg', caption: 'Master Bedroom' },
+        { src: 'assets/images/02.1-the-house---master-large.jpeg', caption: 'Master Bedroom View' },
+        { src: 'assets/images/02.2-the-house---master-large.jpeg', caption: 'Comfortable Master' },
+        { src: 'assets/images/03-the-house---dining_kitchen-large.jpeg', caption: 'Dining & Kitchen' },
+        { src: 'assets/images/03.1-the-house---dining-large.jpeg', caption: 'Dining Area' },
+        { src: 'assets/images/03.2-the-house---kitchen-large.jpeg', caption: 'Full Kitchen' },
+        { src: 'assets/images/4-the-house---queen-large.jpeg', caption: 'Queen Bedroom' },
+        { src: 'assets/images/4.1-the-house---queen-large.jpeg', caption: 'Queen Room' },
+        { src: 'assets/images/6-the-house---twins-large.jpeg', caption: 'Twin Beds Room' },
+        { src: 'assets/images/6.1-the-house---twins-large.jpeg', caption: 'Twins Bedroom' },
+        { src: 'assets/images/02.3-the-house---master-bath-large.jpeg', caption: 'Master Bathroom' },
+        { src: 'assets/images/02.4-the-house---master-bath-large.jpeg', caption: 'Master Bath' },
+        { src: 'assets/images/5-the-house---2nd-bathroom-large.jpeg', caption: 'Second Bathroom' },
+        { src: 'assets/images/23-the-house---patio-large.jpeg', caption: 'Patio' },
+        { src: 'assets/images/23.1-the-house---patio-large.jpeg', caption: 'Outdoor Patio' },
+        { src: 'assets/images/23.2-the-house---patio-large.jpeg', caption: 'Patio Area' },
+        { src: 'assets/images/8-the-house---bbq-large.jpeg', caption: 'BBQ Area' },
+        { src: 'assets/images/22-hammock-large.jpeg', caption: 'Hammock' },
+        { src: 'assets/images/24-lake-large.jpeg', caption: 'Lake View' },
+        { src: 'assets/images/9-porch-large.jpeg', caption: 'Porch' },
+        { src: 'assets/images/9.1-front-porch2.jpeg', caption: 'Front Porch' },
+        { src: 'assets/images/9.2-front-porch1.jpeg', caption: 'Porch View' },
+        { src: 'assets/images/20-the-house---entrance-large.jpeg', caption: 'Entrance' },
+        { src: 'assets/images/20.2-front-large.jpeg', caption: 'Front View' },
+        { src: 'assets/images/21-smoker-large.jpeg', caption: 'Smoker' },
+        { src: 'assets/images/7-the-house---mud-room-large.jpeg', caption: 'Mud Room' }
+    ];
+
+    let currentSlide = 0;
+    const carouselTrack = document.getElementById('carouselTrack');
+    const carouselDots = document.getElementById('carouselDots');
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+
+    // Build carousel
+    galleryPhotos.forEach((photo, index) => {
+        // Create slide
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        slide.innerHTML = `<img src="${photo.src}" alt="${photo.caption}">`;
+        slide.addEventListener('click', () => window.openPhotoGallery(index));
+        carouselTrack.appendChild(slide);
+
+        // Create dot
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+        dot.addEventListener('click', () => goToSlide(index));
+        carouselDots.appendChild(dot);
+    });
+
+    function goToSlide(index) {
+        currentSlide = index;
+        carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+        
+        // Update dots
+        document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentSlide);
+        });
+    }
+
+    prevBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + galleryPhotos.length) % galleryPhotos.length;
+        goToSlide(currentSlide);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % galleryPhotos.length;
+        goToSlide(currentSlide);
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const tabName = button.getAttribute('data-tab');
+            
+            // Update buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + '-tab').classList.add('active');
+        });
+    });
+
+    // Auto-advance carousel
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % galleryPhotos.length;
+        goToSlide(currentSlide);
+    }, 5000);
+})();
+</script>

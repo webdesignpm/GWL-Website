@@ -1,0 +1,1075 @@
+<!-- Custom Gallery/Amenities/Reviews Section -->
+<style>
+    .custom-tabs-section {
+        max-width: 870px;
+        margin: 60px auto;
+        padding: 0 20px;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Tab Navigation */
+    .tab-navigation {
+        display: flex;
+        gap: 0;
+        background: #C1C5C5;
+        border-radius: 50px;
+        padding: 8px;
+        margin-bottom: 40px;
+        margin-left: 60px;
+        margin-right: 60px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .tab-button {
+        flex: 1;
+        padding: 16px 32px;
+        border: none;
+        background: transparent;
+        color: #000;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 40px;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .tab-button:hover {
+        color: #031818;
+    }
+
+    .tab-button.active {
+        background: #63A4A3;
+        color: white;
+        box-shadow: 0 4px 15px rgba(99, 164, 163, 0.3);
+    }
+
+    .tab-button svg {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+    }
+
+    /* Tab Content */
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+        animation: fadeIn 0.4s;
+    }
+
+    .amenities-modal.active {
+        display: flex;
+        animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Gallery Carousel */
+    .gallery-carousel {
+        position: relative;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 60px;
+    }
+
+    .carousel-container {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/10;
+        perspective: 1000px;
+        min-height: 300px;
+    }
+
+    .carousel-track {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .carousel-slide {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    .carousel-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 8px solid white;
+        border-radius: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Slide positioning - stack effect */
+    .carousel-slide {
+        opacity: 0;
+        transform: scale(0.8) translateX(0) rotateY(0deg);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .carousel-slide.active {
+        opacity: 1;
+        transform: scale(1) translateX(0) rotateY(0deg);
+        z-index: 3;
+        pointer-events: auto;
+    }
+
+    .carousel-slide.prev {
+        opacity: 0.6;
+        transform: scale(0.85) translateX(-40%) rotateY(15deg);
+        z-index: 2;
+        pointer-events: auto;
+    }
+
+    .carousel-slide.next {
+        opacity: 0.6;
+        transform: scale(0.85) translateX(40%) rotateY(-15deg);
+        z-index: 2;
+        pointer-events: auto;
+    }
+
+    .carousel-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 24px;
+        color: #031818;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        z-index: 10;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .carousel-nav:hover {
+        background: white;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-prev {
+        left: 20px;
+    }
+
+    .carousel-next {
+        right: 20px;
+    }
+
+    .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 20px;
+    }
+
+    .carousel-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #D0D0D0;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        padding: 0;
+    }
+
+    .carousel-dot.active {
+        background: #4AA6A4;
+        width: 30px;
+        border-radius: 5px;
+    }
+
+    /* Amenities Grid */
+    .amenities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+    }
+
+    .amenity-card {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        transition: all 0.3s;
+    }
+
+    .amenity-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .amenity-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #4AA6A4, #537BA6);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .amenity-icon svg {
+        width: 28px;
+        height: 28px;
+        color: white;
+    }
+
+    .amenity-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #031818;
+        margin-bottom: 10px;
+    }
+
+    .amenity-description {
+        font-size: 15px;
+        color: #666;
+        line-height: 1.6;
+    }
+
+    /* Reviews */
+    .reviews-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .review-card {
+        background: white;
+        padding: 35px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+    }
+
+    .review-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .review-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #4AA6A4, #537BA6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 20px;
+    }
+
+    .review-info h4 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+        color: #031818;
+    }
+
+    .review-stars {
+        color: #FFB800;
+        font-size: 16px;
+    }
+
+    .review-text {
+        font-size: 15px;
+        color: #444;
+        line-height: 1.7;
+        font-style: italic;
+    }
+
+    /* Show All Amenities Button */
+    .show-all-amenities-btn {
+        display: block;
+        margin: 40px auto 0;
+        padding: 16px 40px;
+        background: white;
+        border: 2px solid #4AA6A4;
+        color: #4AA6A4;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .show-all-amenities-btn:hover {
+        background: #4AA6A4;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(74, 166, 164, 0.3);
+    }
+
+    /* Amenities Modal */
+    .amenities-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 10000;
+        overflow-y: auto;
+        padding: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .amenities-modal.active {
+        display: flex !important;
+    }
+
+    .amenities-modal-content {
+        max-width: 900px;
+        width: calc(100% - 40px);
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        position: relative;
+        font-family: 'Montserrat', sans-serif;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    .amenities-modal-close {
+        position: sticky;
+        top: 20px;
+        float: right;
+        margin-bottom: -40px;
+        z-index: 10;
+        background: #f0f0f0;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        color: #031818;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .amenities-modal-close:hover {
+        background: #e0e0e0;
+        transform: rotate(90deg);
+    }
+    
+    .amenities-modal-close svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .amenities-modal h2 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #031818;
+        margin-bottom: 30px;
+    }
+
+    .amenities-category {
+        margin-bottom: 40px;
+    }
+
+    .amenities-category h3 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #4AA6A4;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #E8F4F3;
+    }
+
+    .amenities-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 15px;
+    }
+
+    .amenity-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px;
+        background: #F9FAFB;
+        border-radius: 10px;
+        transition: all 0.2s;
+    }
+
+    .amenity-item:hover {
+        background: #E8F4F3;
+    }
+
+    .amenity-item svg {
+        width: 20px;
+        height: 20px;
+        color: #4AA6A4;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .amenity-item-content {
+        flex: 1;
+    }
+
+    .amenity-item-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #031818;
+        margin-bottom: 3px;
+    }
+
+    .amenity-item-description {
+        font-size: 13px;
+        color: #666;
+        line-height: 1.4;
+    }
+
+    /* JotForm Embed Styling */
+    .jotform-embed iframe {
+        width: 100% !important;
+        min-height: 600px !important;
+        height: auto !important;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .tab-navigation {
+            border-radius: 30px;
+        }
+
+        .tab-button {
+            padding: 12px 8px;
+            font-size: 13px;
+            gap: 4px;
+            flex-direction: column;
+        }
+        
+        .tab-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .custom-tabs-section {
+            padding: 0 10px;
+        }
+
+        .gallery-carousel {
+            padding: 0 40px;
+        }
+
+        .carousel-container {
+            aspect-ratio: 4/3;
+            min-height: 250px;
+        }
+
+        .carousel-nav {
+            width: 35px;
+            height: 35px;
+        }
+        
+        .carousel-nav svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .carousel-prev {
+            left: 5px;
+        }
+
+        .carousel-next {
+            right: 5px;
+        }
+        
+        .carousel-slide {
+            transform: scale(0.95) translateX(0) rotateY(0deg) !important;
+        }
+        
+        .carousel-slide.active {
+            transform: scale(1) translateX(0) rotateY(0deg) !important;
+        }
+        
+        .carousel-slide.prev,
+        .carousel-slide.next {
+            opacity: 0 !important;
+            transform: scale(0.8) translateX(0) rotateY(0deg) !important;
+            pointer-events: none;
+        }
+        
+        .carousel-dots {
+            max-width: 100%;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .amenities-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .amenities-modal-content {
+            padding: 30px 20px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .amenities-modal h2 {
+            font-size: 24px;
+        }
+
+        .amenities-list {
+            grid-template-columns: 1fr;
+        }
+        
+        .amenities-modal-content > div[style*="columns"] {
+            columns: 1 !important;
+        }
+    }
+</style>
+
+<div class="custom-tabs-section">
+    <!-- Tab Navigation -->
+    <div class="tab-navigation">
+        <button class="tab-button active" data-tab="gallery">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke-width="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21" stroke-width="2"/>
+            </svg>
+            Gallery
+        </button>
+        <button class="tab-button" data-tab="amenities">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke-width="2"/>
+                <polyline points="9 22 9 12 15 12 15 22" stroke-width="2"/>
+            </svg>
+            Amenities
+        </button>
+        <button class="tab-button" data-tab="reviews">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke-width="2"/>
+            </svg>
+            Reviews
+        </button>
+    </div>
+
+    <!-- Gallery Tab -->
+    <div class="tab-content active" id="gallery-tab">
+        <div class="gallery-carousel">
+            <div class="carousel-container">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Slides will be added by JavaScript -->
+                </div>
+                <button class="carousel-nav carousel-prev" id="carouselPrev">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="carousel-nav carousel-next" id="carouselNext">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+            <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+    </div>
+
+    <!-- Amenities Tab -->
+    <div class="tab-content" id="amenities-tab">
+        <div class="amenities-grid">
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="2" y="7" width="20" height="15" rx="2" stroke-width="2"/>
+                        <polyline points="17 2 12 7 7 2" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">75" 4K Smart TV with Roku</h3>
+                <p class="amenity-description">Large screen entertainment with streaming capabilities.</p>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">Fast WiFi - 300 mbps</h3>
+                <p class="amenity-description">High-speed internet for work and streaming.</p>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M5 11l1.5-4.5h11L19 11M5 11v6a1 1 0 001 1h1a1 1 0 001-1v-1h8v1a1 1 0 001 1h1a1 1 0 001-1v-6M5 11h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="8.5" cy="14" r="1.5" fill="currentColor"/>
+                        <circle cx="15.5" cy="14" r="1.5" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">Free Parking (on premise)</h3>
+                <p class="amenity-description">Ample parking space in private driveway.</p>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="8" stroke-width="2"/>
+                        <path d="M8 8v8M12 8v8M16 8v8" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M8 4v2M12 4v2M16 4v2" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">Dishes and Silverware</h3>
+                <p class="amenity-description">Fully stocked kitchen with all dining essentials.</p>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="8" height="18" rx="1" stroke-width="2"/>
+                        <rect x="13" y="8" width="8" height="13" rx="1" stroke-width="2"/>
+                        <line x1="7" y1="8" x2="7" y2="8" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="17" y1="13" x2="17" y2="13" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">Full Kitchen</h3>
+                <p class="amenity-description">Modern appliances, cookware, and dining area.</p>
+            </div>
+
+            <div class="amenity-card">
+                <div class="amenity-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke-width="2"/>
+                        <polyline points="9 22 9 12 15 12 15 22" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3 class="amenity-title">Kingdom Hall within 25min</h3>
+                <p class="amenity-description">Warwick 20min and Ramapo 25min away.</p>
+            </div>
+        </div>
+        
+        <button class="show-all-amenities-btn" id="showAllAmenitiesBtn">Show all 90+ amenities</button>
+    </div>
+
+    <!-- Reviews Tab -->
+    <div class="tab-content" id="reviews-tab">
+        <div class="reviews-container" style="max-width: 100%; padding: 20px;">
+            <h3 style="font-size: 28px; font-weight: 700; color: #031818; margin-bottom: 20px; text-align: center;">Reviews</h3>
+            <div style="width: 100%; min-height: 600px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                <div class="jotform-embed" style="min-height: 1px;" data-id="24127489187106107" data-type="interactive" data-iframesource="www.jotform.com"></div>
+                <script>(function(doc, id){var scripts=doc.getElementsByTagName("script")[0]; if (!doc.getElementById(id)){var script=doc.createElement("script"); script.async=1; script.id=id; script.src="https://cdn.jotfor.ms/s/umd/latest/for-report-embed.js"; scripts.parentNode.insertBefore(script, scripts);}})(document, "jotform-async");</script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Amenities Modal -->
+<div class="amenities-modal" id="amenitiesModal">
+    <div class="amenities-modal-content">
+        <button class="amenities-modal-close" id="closeAmenitiesModal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <h2>All Amenities</h2>
+        <div style="columns:2;column-gap:40px;font-size:14px;line-height:1.6;">
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Common Amenities</h4>
+                <p style="margin:3px 0;">Essentials</p>
+                <p style="margin:3px 0;">Fast Wi-Fi - 300 mbps</p>
+                <p style="margin:3px 0;">Fireplace - electric</p>
+                <p style="margin:3px 0;">Laptop friendly workspaces</p>
+                <p style="margin:3px 0;">Standing Desk</p>
+            </div>
+            
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Safety amenities</h4>
+                <p style="margin:3px 0;">Carbon monoxide detector</p>
+                <p style="margin:3px 0;">Deadbolt lock</p>
+                <p style="margin:3px 0;">Exterior lighting</p>
+                <p style="margin:3px 0;">Fire Extinguisher</p>
+                <p style="margin:3px 0;">First-aid kit</p>
+                <p style="margin:3px 0;">Smoke Detector</p>
+                <p style="margin:3px 0;">Surveillance on property</p>
+            </div>
+            
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Kitchen</h4>
+                <p style="margin:3px 0;">Baking sheet</p>
+                <p style="margin:3px 0;">Barbecue utensils</p>
+                <p style="margin:3px 0;">Blender</p>
+                <p style="margin:3px 0;">Coffee Maker (American)</p>
+                <p style="margin:3px 0;">Cooking basics</p>
+                <p style="margin:3px 0;">Dining Table</p>
+                <p style="margin:3px 0;">Dishes + silverware</p>
+                <p style="margin:3px 0;">Dishwasher</p>
+                <p style="margin:3px 0;">Food processor</p>
+                <p style="margin:3px 0;">Freezer</p>
+                <p style="margin:3px 0;">Hand mixer</p>
+                <p style="margin:3px 0;">Hot water kettle</p>
+                <p style="margin:3px 0;">Instapot - 8 qt</p>
+                <p style="margin:3px 0;">Kitchen</p>
+                <p style="margin:3px 0;">Knife set</p>
+                <p style="margin:3px 0;">Microwave</p>
+                <p style="margin:3px 0;">Oven</p>
+                <p style="margin:3px 0;">Refrigerator</p>
+                <p style="margin:3px 0;">Stove</p>
+                <p style="margin:3px 0;">Tea, coffee and sugar</p>
+                <p style="margin:3px 0;">Toaster</p>
+                <p style="margin:3px 0;">Wine glasses</p>
+            </div>
+            
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Logistic</h4>
+                <p style="margin:3px 0;">Free Parking (on Premise)</p>
+                <p style="margin:3px 0;">Long term stays allowed</p>
+                <p style="margin:3px 0;">Luggage drop-off allowed</p>
+                <p style="margin:3px 0;">Private entrance</p>
+            </div>
+            
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Family aspect</h4>
+                <p style="margin:3px 0;">Children's books</p>
+                <p style="margin:3px 0;">High chair</p>
+                <p style="margin:3px 0;">Pack-n-play</p>
+                <p style="margin:3px 0;">Suitable for children</p>
+            </div>
+            
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Guest access</h4>
+                <p style="margin:3px 0;">Keypad</p>
+                <p style="margin:3px 0;">Self check-in</p>
+            </div>
+            
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Bedroom, bath, and laundry</h4>
+                <p style="margin:3px 0;">Bathtub</p>
+                <p style="margin:3px 0;">Beach towels</p>
+                <p style="margin:3px 0;">Bed linens</p>
+                <p style="margin:3px 0;">Beds: king, queen, & twins</p>
+                <p style="margin:3px 0;">Body soap</p>
+                <p style="margin:3px 0;">Clothing storage</p>
+                <p style="margin:3px 0;">Extra blankets and pillows</p>
+                <p style="margin:3px 0;">Free dryer | In unit</p>
+                <p style="margin:3px 0;">Free washer | In unit</p>
+                <p style="margin:3px 0;">Hair dryer</p>
+                <p style="margin:3px 0;">Hangers</p>
+                <p style="margin:3px 0;">Hot Water</p>
+                <p style="margin:3px 0;">Iron & Board</p>
+                <p style="margin:3px 0;">Lamps With USB Outlets</p>
+                <p style="margin:3px 0;">Room darkening shades</p>
+                <p style="margin:3px 0;">Shampoo / Conditioner</p>
+                <p style="margin:3px 0;">Shower</p>
+            </div>
+            
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Outdoor</h4>
+                <p style="margin:3px 0;">BBQ grill</p>
+                <p style="margin:3px 0;">Beach chairs</p>
+                <p style="margin:3px 0;">Circle driveway</p>
+                <p style="margin:3px 0;">Outdoor dining area</p>
+                <p style="margin:3px 0;">Outdoor fire pit</p>
+                <p style="margin:3px 0;">Outdoor furniture</p>
+                <p style="margin:3px 0;">Large patio</p>
+            </div>
+            
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Location</h4>
+                <p style="margin:3px 0;">Nearby lake</p>
+            </div>
+            
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Theocratic</h4>
+                <p style="margin:3px 0;">Kingdom Hall within 25 min</p>
+                <p style="margin:3px 0;">Warwick - 20 min</p>
+                <p style="margin:3px 0;">Ramapo - 25 min</p>
+                <p style="margin:3px 0;">Wallkill - 60 min</p>
+                <p style="margin:3px 0;">Patterson - 80 min</p>
+            </div>
+            
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Entertainment</h4>
+                <p style="margin:3px 0;">Board games</p>
+                <p style="margin:3px 0;">Books and reading material</p>
+                <p style="margin:3px 0;">Roku TV</p>
+                <p style="margin:3px 0;">3.1 Sound bar</p>
+                <p style="margin:3px 0;">TV</p>
+            </div>
+            
+            <div style="break-inside:avoid;margin-bottom:20px;">
+                <h4 style="font-size:16px;font-weight:700;color:#031818;margin-bottom:8px;">Cooling and Heating</h4>
+                <p style="margin:3px 0;">Air Conditioning</p>
+                <p style="margin:3px 0;">Central heat and Radiant heat</p>
+                <p style="margin:3px 0;">Ceiling fan</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lightbox -->
+<div id="photoLightbox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:99999;opacity:0;transition:opacity 0.3s;">
+    <button id="closeLightboxBtn" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.9);border:none;width:50px;height:50px;border-radius:50%;cursor:pointer;color:#031818;z-index:100000;display:flex;align-items:center;justify-content:center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    </button>
+    <button id="prevLightboxBtn" style="position:absolute;top:50%;left:20px;transform:translateY(-50%);background:rgba(255,255,255,0.9);border:none;width:50px;height:50px;border-radius:50%;cursor:pointer;color:#031818;z-index:100000;display:flex;align-items:center;justify-content:center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+    </button>
+    <button id="nextLightboxBtn" style="position:absolute;top:50%;right:20px;transform:translateY(-50%);background:rgba(255,255,255,0.9);border:none;width:50px;height:50px;border-radius:50%;cursor:pointer;color:#031818;z-index:100000;display:flex;align-items:center;justify-content:center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+    </button>
+    <div style="display:flex;align-items:center;justify-content:center;height:100%;padding:60px;">
+        <img id="lightboxImage" src="" style="max-width:90%;max-height:90vh;object-fit:contain;border-radius:8px;">
+    </div>
+    <div id="lightboxCaptionDisplay" style="position:absolute;bottom:70px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.95);padding:12px 24px;border-radius:12px;font-weight:600;color:#031818;max-width:80%;text-align:center;font-family:'Montserrat',sans-serif;"></div>
+    <div id="lightboxCounterDisplay" style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.9);padding:10px 20px;border-radius:20px;font-weight:600;color:#031818;"></div>
+</div>
+
+<script>
+(function() {
+    // Gallery photos
+    const galleryPhotos = [
+        { src: 'assets/images/03-the-house---dining_kitchen-large.jpeg', caption: 'Dining Room & Kitchen' },
+        { src: 'assets/images/20.1-front-of-the-house-large.jpeg', caption: 'Front of the House' },
+        { src: 'assets/images/01-living-room-large.jpeg', caption: 'Living Room' },
+        { src: 'assets/images/01.1-the-house---lr-large.jpeg', caption: 'Living Room View' },
+        { src: 'assets/images/01.2-the-house---lr-large.jpeg', caption: 'Spacious Living Area' },
+        { src: 'assets/images/01.3-the-house---lr-large.jpeg', caption: 'Cozy Living Space' },
+        { src: 'assets/images/02-the-house---master-large.jpeg', caption: 'Master Bedroom' },
+        { src: 'assets/images/02.1-the-house---master-large.jpeg', caption: 'Master Bedroom View' },
+        { src: 'assets/images/02.2-the-house---master-large.jpeg', caption: 'Master Bedroom' },
+        { src: 'assets/images/03.1-the-house---dining-large.jpeg', caption: 'Dining Area' },
+        { src: 'assets/images/03.2-the-house---kitchen-large.jpeg', caption: 'Kitchen' },
+        { src: 'assets/images/4-the-house---queen-large.jpeg', caption: 'Queen Bedroom' },
+        { src: 'assets/images/4.1-the-house---queen-large.jpeg', caption: 'Queen Bedroom' },
+        { src: 'assets/images/6-the-house---twins-large.jpeg', caption: 'Twin Bedroom' },
+        { src: 'assets/images/6.1-the-house---twins-large.jpeg', caption: 'Twin Bedroom' },
+        { src: 'assets/images/02.3-the-house---master-bath-large.jpeg', caption: 'Master Bathroom' },
+        { src: 'assets/images/02.4-the-house---master-bath-large.jpeg', caption: 'Master Bathroom' },
+        { src: 'assets/images/5-the-house---2nd-bathroom-large.jpeg', caption: 'Second Bathroom' },
+        { src: 'assets/images/23-the-house---patio-large.jpeg', caption: 'Patio' },
+        { src: 'assets/images/23.1-the-house---patio-large.jpeg', caption: 'Outdoor Patio' },
+        { src: 'assets/images/23.2-the-house---patio-large.jpeg', caption: 'Patio Area' },
+        { src: 'assets/images/8-the-house---bbq-large.jpeg', caption: 'BBQ Area' },
+        { src: 'assets/images/22-hammock-large.jpeg', caption: 'Hammock' },
+        { src: 'assets/images/24-lake-large.jpeg', caption: 'Lake View' },
+        { src: 'assets/images/9-porch-large.jpeg', caption: 'Front Porch' },
+        { src: 'assets/images/9.1-front-porch2.jpeg', caption: 'Front Porch' },
+        { src: 'assets/images/9.2-front-porch1.jpeg', caption: 'Front Porch View' },
+        { src: 'assets/images/20-the-house---entrance-large.jpeg', caption: 'Entrance' },
+        { src: 'assets/images/20.2-front-large.jpeg', caption: 'Front of the House' },
+        { src: 'assets/images/21-smoker-large.jpeg', caption: 'Smoker' },
+        { src: 'assets/images/7-the-house---mud-room-large.jpeg', caption: 'Mud Room' }
+    ];
+
+    let currentSlide = 0;
+    const carouselTrack = document.getElementById('carouselTrack');
+    const carouselDots = document.getElementById('carouselDots');
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+
+    // Build carousel
+    galleryPhotos.forEach((photo, index) => {
+        // Create slide
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        slide.innerHTML = `<img src="${photo.src}" alt="${photo.caption}">`;
+        slide.addEventListener('click', () => openLightbox(index));
+        carouselTrack.appendChild(slide);
+
+        // Create dot
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+        dot.addEventListener('click', () => goToSlide(index));
+        carouselDots.appendChild(dot);
+    });
+
+    function goToSlide(index) {
+        currentSlide = index;
+        
+        // Update slide positions
+        const slides = document.querySelectorAll('.carousel-slide');
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active', 'prev', 'next');
+            
+            if (i === currentSlide) {
+                slide.classList.add('active');
+            } else if (i === (currentSlide - 1 + galleryPhotos.length) % galleryPhotos.length) {
+                slide.classList.add('prev');
+            } else if (i === (currentSlide + 1) % galleryPhotos.length) {
+                slide.classList.add('next');
+            }
+        });
+        
+        // Update dots
+        document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentSlide);
+        });
+    }
+
+    prevBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + galleryPhotos.length) % galleryPhotos.length;
+        goToSlide(currentSlide);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % galleryPhotos.length;
+        goToSlide(currentSlide);
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const tabName = button.getAttribute('data-tab');
+            
+            // Update buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + '-tab').classList.add('active');
+        });
+    });
+
+    // Initialize first slide
+    goToSlide(0);
+    
+    // Auto-advance carousel
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % galleryPhotos.length;
+        goToSlide(currentSlide);
+    }, 5000);
+
+    // Lightbox functionality
+    const photoLightbox = document.getElementById('photoLightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCounter = document.getElementById('lightboxCounterDisplay');
+    const lightboxCaption = document.getElementById('lightboxCaptionDisplay');
+    const closeLightboxBtn = document.getElementById('closeLightboxBtn');
+    const prevLightboxBtn = document.getElementById('prevLightboxBtn');
+    const nextLightboxBtn = document.getElementById('nextLightboxBtn');
+    let currentLightboxIndex = 0;
+
+    function openLightbox(index) {
+        currentLightboxIndex = index;
+        updateLightboxImage();
+        photoLightbox.style.display = 'block';
+        setTimeout(() => photoLightbox.style.opacity = '1', 10);
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        photoLightbox.style.opacity = '0';
+        setTimeout(() => photoLightbox.style.display = 'none', 300);
+        document.body.style.overflow = '';
+    }
+
+    function updateLightboxImage() {
+        const photo = galleryPhotos[currentLightboxIndex];
+        lightboxImage.src = photo.src;
+        lightboxImage.alt = photo.caption;
+        lightboxCaption.textContent = photo.caption;
+        lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${galleryPhotos.length}`;
+    }
+
+    function showPrevLightbox() {
+        currentLightboxIndex = (currentLightboxIndex - 1 + galleryPhotos.length) % galleryPhotos.length;
+        updateLightboxImage();
+    }
+
+    function showNextLightbox() {
+        currentLightboxIndex = (currentLightboxIndex + 1) % galleryPhotos.length;
+        updateLightboxImage();
+    }
+
+    closeLightboxBtn.addEventListener('click', closeLightbox);
+    prevLightboxBtn.addEventListener('click', showPrevLightbox);
+    nextLightboxBtn.addEventListener('click', showNextLightbox);
+
+    photoLightbox.addEventListener('click', (e) => {
+        if (e.target === photoLightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (photoLightbox.style.display === 'none') return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showPrevLightbox();
+        if (e.key === 'ArrowRight') showNextLightbox();
+    });
+
+    // Amenities modal
+    const showAmenitiesBtn = document.getElementById('showAllAmenitiesBtn');
+    const amenitiesModal = document.getElementById('amenitiesModal');
+    const closeModalBtn = document.getElementById('closeAmenitiesModal');
+
+    if (showAmenitiesBtn && amenitiesModal) {
+        showAmenitiesBtn.addEventListener('click', () => {
+            amenitiesModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log('Close button clicked');
+                amenitiesModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        } else {
+            console.error('Close button not found!');
+        }
+
+        // Close on background click
+        amenitiesModal.addEventListener('click', (e) => {
+            if (e.target === amenitiesModal || !document.querySelector('.amenities-modal-content').contains(e.target)) {
+                amenitiesModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && amenitiesModal.classList.contains('active')) {
+                amenitiesModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+})();
+</script>

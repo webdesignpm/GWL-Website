@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area - Greenwood Lake Getaway</title>
+    <meta name="description" content="Explore the area around Greenwood Lake Getaway - close to Bethel locations, airports, and popular tourist destinations.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: #FFFFFF;
+            color: #1A1A1A;
+            overflow-x: hidden;
+        }
+
+        /* Import navbar styles from index.html */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(180deg, rgba(3, 24, 24, 0.8) 0%, rgba(3, 24, 24, 0) 100%);
+            height: 104px;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            max-width: 1440px;
+            height: 64px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            padding: 0 48px;
+        }
+
+        .navbar-left, .navbar-right {
+            display: flex;
+            gap: 48px;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .navbar-logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            width: 180px;
+            height: 104px;
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 400;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .navbar-cta {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 24px;
+            min-width: 160px;
+            min-height: 44px;
+            margin-left: 56px;
+            background: linear-gradient(180deg, #4AA6A4 39.83%, #5A8BC5 100%);
+            border-radius: 18px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .navbar-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 10px;
+            min-width: 44px;
+            min-height: 44px;
+            transition: opacity 0.3s ease;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        .mobile-menu-toggle:hover {
+            opacity: 0.8;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 104px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 104px);
+            background: linear-gradient(180deg, rgba(3, 24, 24, 0.98) 0%, rgba(26, 74, 74, 0.98) 100%);
+            z-index: 999;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mobile-menu .nav-link {
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-menu .nav-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: none;
+        }
+
+        .mobile-menu .navbar-cta {
+            width: 100%;
+            margin-top: 8px;
+            margin-left: 0;
+        }
+
+        /* Page Content */
+        .area-page {
+            padding-top: 104px;
+            min-height: 100vh;
+        }
+
+        .area-hero {
+            background: linear-gradient(180deg, #031818 0%, #1A4A4A 100%);
+            padding: 80px 40px 60px;
+            text-align: center;
+        }
+
+        .area-hero-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 63px;
+            line-height: 1.2;
+            color: #FFFFFF;
+            margin: 0;
+        }
+
+        .area-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .area-section {
+            margin-bottom: 80px;
+        }
+
+        .area-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .area-section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 47px;
+            line-height: 1.2;
+            color: #1A1A1A;
+            margin: 0 0 32px 0;
+        }
+
+        .distance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .distance-item {
+            background: #F8F8F8;
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .distance-location {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: #1A1A1A;
+        }
+
+        .distance-time {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            color: #4A4A4A;
+        }
+
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .attraction-card {
+            background: #FFFFFF;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .attraction-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .attraction-content {
+            padding: 24px;
+        }
+
+        .attraction-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 1.4;
+            color: #1A1A1A;
+            margin: 0 0 12px 0;
+        }
+
+        .attraction-description {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4A4A4A;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-left, .navbar-right {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .area-hero {
+                padding: 60px 24px 40px;
+            }
+
+            .area-hero-title {
+                font-size: 40px;
+            }
+
+            .area-content {
+                padding: 60px 24px;
+            }
+
+            .area-section {
+                margin-bottom: 60px;
+            }
+
+            .area-section-title {
+                font-size: 32px;
+            }
+
+            .distance-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .attractions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (same as index.html) -->
+    <nav>
+        <div class="navbar-content">
+            <!-- Left Navigation -->
+            <div class="navbar-left">
+                <a href="index.html#home" class="nav-link" aria-label="Home">
+                    <img src="assets/icons/home-icon.svg" alt="Home" class="nav-icon">
+                    <span>Home</span>
+                </a>
+
+                <a href="gallery.html" class="nav-link" aria-label="Gallery">
+                    <img src="assets/icons/gallery-icon.svg" alt="Gallery" class="nav-icon">
+                    <span>Gallery</span>
+                </a>
+
+                <a href="area.html" class="nav-link" aria-label="Area">
+                    <img src="assets/icons/area-icon.svg" alt="Area" class="nav-icon">
+                    <span>Area</span>
+                </a>
+            </div>
+
+            <!-- Logo -->
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <img src="assets/logo/logo.png" alt="Greenwood Lake Getaway">
+                </a>
+            </div>
+
+            <!-- Right Navigation -->
+            <div class="navbar-right">
+                <a href="index.html#availability" class="nav-link" aria-label="Availability">
+                    <img src="assets/icons/availability-icon.svg" alt="Availability" class="nav-icon">
+                    <span>Availability</span>
+                </a>
+
+                <a href="index.html#rates" class="nav-link" aria-label="Rates">
+                    <img src="assets/icons/rates-icon.svg" alt="Rates" class="nav-icon">
+                    <span>Rates</span>
+                </a>
+
+                <a href="index.html#contact" class="nav-link" aria-label="Contact us">
+                    <img src="assets/icons/contact-icon.svg" alt="Contact us" class="nav-icon">
+                    <span>Contact us</span>
+                </a>
+
+                <a href="https://greenwood-lake-getaway-production-30b8.up.railway.app/booking" class="navbar-cta" aria-label="Request reservation">
+                    Request Reservation
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 12H21M3 6H21M3 18H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-nav-links">
+                <a href="index.html#home" class="nav-link" aria-label="Home">
+                    <img src="assets/icons/home-icon.svg" alt="Home" class="nav-icon">
+                    <span>Home</span>
+                </a>
+
+                <a href="gallery.html" class="nav-link" aria-label="Gallery">
+                    <img src="assets/icons/gallery-icon.svg" alt="Gallery" class="nav-icon">
+                    <span>Gallery</span>
+                </a>
+
+                <a href="area.html" class="nav-link" aria-label="Area">
+                    <img src="assets/icons/area-icon.svg" alt="Area" class="nav-icon">
+                    <span>Area</span>
+                </a>
+
+                <a href="index.html#availability" class="nav-link" aria-label="Availability">
+                    <img src="assets/icons/availability-icon.svg" alt="Availability" class="nav-icon">
+                    <span>Availability</span>
+                </a>
+
+                <a href="index.html#rates" class="nav-link" aria-label="Rates">
+                    <img src="assets/icons/rates-icon.svg" alt="Rates" class="nav-icon">
+                    <span>Rates</span>
+                </a>
+
+                <a href="index.html#contact" class="nav-link" aria-label="Contact us">
+                    <img src="assets/icons/contact-icon.svg" alt="Contact us" class="nav-icon">
+                    <span>Contact us</span>
+                </a>
+
+                <a href="https://greenwood-lake-getaway-production-30b8.up.railway.app/booking" class="navbar-cta" aria-label="Request reservation">
+                    Request Reservation
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+    (function() {
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', function() {
+                const isActive = mobileMenu.classList.toggle('active');
+                this.setAttribute('aria-expanded', isActive);
+                
+                // Update icon
+                const icon = this.querySelector('svg');
+                if (isActive) {
+                    icon.innerHTML = '<path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+                } else {
+                    icon.innerHTML = '<path d="M3 12H21M3 6H21M3 18H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+                }
+            });
+
+            // Close mobile menu when clicking on a link
+            const mobileLinks = mobileMenu.querySelectorAll('.nav-link, .navbar-cta');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                    const icon = mobileMenuToggle.querySelector('svg');
+                    icon.innerHTML = '<path d="M3 12H21M3 6H21M3 18H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+                });
+            });
+        }
+    })();
+    </script>
+
+    <!-- Page Content -->
+    <div class="area-page">
+        <!-- Hero Section -->
+        <section class="area-hero">
+            <h1 class="area-hero-title">Explore the Area</h1>
+        </section>
+
+        <!-- Content Sections -->
+        <div class="area-content">
+            <!-- Proximity to Bethel Locations -->
+            <section class="area-section">
+                <h2 class="area-section-title">Proximity to Bethel locations</h2>
+                <div class="distance-grid">
+                    <div class="distance-item">
+                        <span class="distance-location">Warwick</span>
+                        <span class="distance-time">20 min</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">Ramapo</span>
+                        <span class="distance-time">20 min</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">Wallkill</span>
+                        <span class="distance-time">60 min</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">Patterson</span>
+                        <span class="distance-time">80 min</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Distance to Nearby Airports -->
+            <section class="area-section">
+                <h2 class="area-section-title">Distance to Nearby Airports</h2>
+                <div class="distance-grid">
+                    <div class="distance-item">
+                        <span class="distance-location">Newark Airport</span>
+                        <span class="distance-time">75 min</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">JFK Airport</span>
+                        <span class="distance-time">90 min</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">LaGuardia Airport</span>
+                        <span class="distance-time">75 min</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">Stewart Airport</span>
+                        <span class="distance-time">45 min</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Popular Tourist Locations -->
+            <section class="area-section">
+                <h2 class="area-section-title">Many popular tourist locations:</h2>
+                <div class="distance-grid">
+                    <div class="distance-item">
+                        <span class="distance-location">Legoland, Goshen</span>
+                        <span class="distance-time">30 min</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">Times Square, NYC</span>
+                        <span class="distance-time">75 min</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">Philadelphia, PA</span>
+                        <span class="distance-time">2 hr 20 min</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">Hershey, PA</span>
+                        <span class="distance-time">3 hr 20 min</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">Boston, MA</span>
+                        <span class="distance-time">4 hr</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">Portland, ME</span>
+                        <span class="distance-time">5 hr 15 min</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">Niagara Falls, US/Canada</span>
+                        <span class="distance-time">6 hr</span>
+                    </div>
+                    <div class="distance-item">
+                        <span class="distance-location">Acadia National Park, ME</span>
+                        <span class="distance-time">8 hr</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Local Attractions (placeholders - you'll need to provide images) -->
+            <section class="area-section">
+                <h2 class="area-section-title">Local Attractions</h2>
+                <div class="attractions-grid">
+                    <div class="attraction-card">
+                        <img src="assets/images/bellvale-creamery.jpg" alt="Bellvale Creamery" class="attraction-image" onerror="this.src='https://via.placeholder.com/400x200?text=Bellvale+Creamery'">
+                        <div class="attraction-content">
+                            <h3 class="attraction-title">Bellvale Creamery</h3>
+                            <p class="attraction-description">Great ice cream with a beautiful view.</p>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="assets/images/greenwood-roasters.jpg" alt="Greenwood Lake Roasters" class="attraction-image" onerror="this.src='https://via.placeholder.com/400x200?text=Greenwood+Lake+Roasters'">
+                        <div class="attraction-content">
+                            <h3 class="attraction-title">Greenwood Lake Roasters</h3>
+                            <p class="attraction-description">Enjoy a organic craft coffee.</p>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="assets/images/waterfront-park.jpg" alt="Waterfront Park" class="attraction-image" onerror="this.src='https://via.placeholder.com/400x200?text=Waterfront+Park'">
+                        <div class="attraction-content">
+                            <h3 class="attraction-title">Waterfront Park</h3>
+                            <p class="attraction-description">Public beach 2 blocks away</p>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="assets/images/legoland.jpg" alt="Legoland" class="attraction-image" onerror="this.src='https://via.placeholder.com/400x200?text=Legoland'">
+                        <div class="attraction-content">
+                            <h3 class="attraction-title">Legoland</h3>
+                            <p class="attraction-description">Fun center</p>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="assets/images/village-buzz.jpg" alt="Village Buzz Cafe" class="attraction-image" onerror="this.src='https://via.placeholder.com/400x200?text=Village+Buzz+Cafe'">
+                        <div class="attraction-content">
+                            <h3 class="attraction-title">Village Buzz Cafe</h3>
+                            <p class="attraction-description">Breakfast nearby</p>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="assets/images/dottie-audreys.jpg" alt="Dottie Audrey's" class="attraction-image" onerror="this.src='https://via.placeholder.com/400x200?text=Dottie+Audrey%27s'">
+                        <div class="attraction-content">
+                            <h3 class="attraction-title">Dottie Audrey's</h3>
+                            <p class="attraction-description">Bakery / Kitchen near Warwick Bethel</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

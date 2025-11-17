@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery - Greenwood Lake Getaway</title>
+    <meta name="description" content="Browse photos of our beautiful vacation rental near Warwick Bethel.">
+    <link href="assets/images/logo.svg" rel="icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+            color: #031818;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4AA6A4;
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: #537BA6;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .back-link:hover {
+            background: #f0f0f0;
+        }
+
+        /* Gallery */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .gallery-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #031818;
+        }
+
+        .gallery-subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer !important;
+            aspect-ratio: 4/3;
+            background: #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            user-select: none;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+            pointer-events: none;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+        }
+
+        /* Navigation Buttons */
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            color: #031818;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 1001;
+        }
+
+        .lightbox-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        /* Close Button */
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            color: #031818;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 1001;
+        }
+
+        .lightbox-close:hover {
+            background: white;
+            transform: rotate(90deg);
+        }
+
+        /* Counter */
+        .lightbox-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #031818;
+            z-index: 1001;
+        }
+
+        /* Caption */
+        .lightbox-caption {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #031818;
+            max-width: 80%;
+            text-align: center;
+            z-index: 1001;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+
+            .gallery-title {
+                font-size: 28px;
+            }
+
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
+
+            .lightbox-close {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+        /* Loading State */
+        .gallery-item.loading {
+            background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Greenwood Lake Getaway</a>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </header>
+
+    <!-- Gallery -->
+    <div class="gallery-container">
+        <h1 class="gallery-title">Photo Gallery</h1>
+        <p class="gallery-subtitle">Explore our beautiful vacation rental</p>
+
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Images will be loaded by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="closeLightbox" aria-label="Close">×</button>
+        <button class="lightbox-nav lightbox-prev" id="prevImage" aria-label="Previous">‹</button>
+        <button class="lightbox-nav lightbox-next" id="nextImage" aria-label="Next">›</button>
+        <div class="lightbox-content">
+            <img src="" alt="" class="lightbox-image" id="lightboxImage">
+        </div>
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+    </div>
+
+    <script>
+        console.log('Gallery script loaded!');
+        
+        // Gallery images with captions
+        const galleryImages = [
+            { src: 'assets/images/20.1-front-of-the-house-large.jpeg', caption: 'Front of the House' },
+            { src: 'assets/images/20.2-front-large.jpeg', caption: 'Front View' },
+            { src: 'assets/images/20-the-house---entrance-large.jpeg', caption: 'Entrance' },
+            { src: 'assets/images/9.1-front-porch2.jpeg', caption: 'Front Porch' },
+            { src: 'assets/images/9.2-front-porch1.jpeg', caption: 'Porch View' },
+            { src: 'assets/images/9-porch-large.jpeg', caption: 'Relaxing Porch' },
+            { src: 'assets/images/01-living-room-large.jpeg', caption: 'Living Room' },
+            { src: 'assets/images/01.1-the-house---lr-large.jpeg', caption: 'Living Room View' },
+            { src: 'assets/images/01.2-the-house---lr-large.jpeg', caption: 'Spacious Living Area' },
+            { src: 'assets/images/01.3-the-house---lr-large.jpeg', caption: 'Cozy Living Space' },
+            { src: 'assets/images/03-the-house---dining_kitchen-large.jpeg', caption: 'Dining & Kitchen' },
+            { src: 'assets/images/03.1-the-house---dining-large.jpeg', caption: 'Dining Area' },
+            { src: 'assets/images/03.2-the-house---kitchen-large.jpeg', caption: 'Full Kitchen' },
+            { src: 'assets/images/02-the-house---master-large.jpeg', caption: 'Master Bedroom' },
+            { src: 'assets/images/02.1-the-house---master-large.jpeg', caption: 'Master Bedroom View' },
+            { src: 'assets/images/02.2-the-house---master-large.jpeg', caption: 'Comfortable Master' },
+            { src: 'assets/images/02.3-the-house---master-bath-large.jpeg', caption: 'Master Bathroom' },
+            { src: 'assets/images/02.4-the-house---master-bath-large.jpeg', caption: 'Master Bath' },
+            { src: 'assets/images/4-the-house---queen-large.jpeg', caption: 'Queen Bedroom' },
+            { src: 'assets/images/4.1-the-house---queen-large.jpeg', caption: 'Queen Room' },
+            { src: 'assets/images/6-the-house---twins-large.jpeg', caption: 'Twin Beds Room' },
+            { src: 'assets/images/6.1-the-house---twins-large.jpeg', caption: 'Twins Bedroom' },
+            { src: 'assets/images/5-the-house---2nd-bathroom-large.jpeg', caption: 'Second Bathroom' },
+            { src: 'assets/images/7-the-house---mud-room-large.jpeg', caption: 'Mud Room' },
+            { src: 'assets/images/23-the-house---patio-large.jpeg', caption: 'Patio' },
+            { src: 'assets/images/23.1-the-house---patio-large.jpeg', caption: 'Outdoor Patio' },
+            { src: 'assets/images/23.2-the-house---patio-large.jpeg', caption: 'Patio Area' },
+            { src: 'assets/images/8-the-house---bbq-large.jpeg', caption: 'BBQ Area' },
+            { src: 'assets/images/21-smoker-large.jpeg', caption: 'Smoker' },
+            { src: 'assets/images/22-hammock-large.jpeg', caption: 'Hammock' },
+            { src: 'assets/images/24-lake-large.jpeg', caption: 'Lake View' }
+        ];
+
+        // Load gallery
+        const galleryGrid = document.getElementById('galleryGrid');
+        console.log('Gallery grid element:', galleryGrid);
+        console.log('Total images to load:', galleryImages.length);
+        
+        galleryImages.forEach((image, index) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item loading';
+            item.dataset.index = index;
+            
+            const img = document.createElement('img');
+            img.src = image.src;
+            img.alt = image.caption;
+            img.loading = 'lazy';
+            
+            img.onload = () => {
+                item.classList.remove('loading');
+            };
+            
+            item.appendChild(img);
+            
+            // Add click event with debugging
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Gallery item clicked, index:', index);
+                openLightbox(index);
+            });
+            
+            // Also add to the image itself as backup
+            img.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Image clicked, index:', index);
+                openLightbox(index);
+            });
+            
+            galleryGrid.appendChild(item);
+        });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        const lightboxCounter = document.getElementById('lightboxCounter');
+        const closeLightbox = document.getElementById('closeLightbox');
+        const prevImage = document.getElementById('prevImage');
+        const nextImage = document.getElementById('nextImage');
+
+        let currentIndex = 0;
+
+        function openLightbox(index) {
+            console.log('Opening lightbox for image:', index);
+            currentIndex = index;
+            updateLightbox();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightboxFunc() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateLightbox() {
+            const image = galleryImages[currentIndex];
+            lightboxImage.src = image.src;
+            lightboxImage.alt = image.caption;
+            lightboxCaption.textContent = image.caption;
+            lightboxCounter.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+        }
+
+        function showPrevImage() {
+            currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateLightbox();
+        }
+
+        function showNextImage() {
+            currentIndex = (currentIndex + 1) % galleryImages.length;
+            updateLightbox();
+        }
+
+        // Event listeners
+        closeLightbox.addEventListener('click', closeLightboxFunc);
+        prevImage.addEventListener('click', showPrevImage);
+        nextImage.addEventListener('click', showNextImage);
+
+        // Close on background click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightboxFunc();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') closeLightboxFunc();
+            if (e.key === 'ArrowLeft') showPrevImage();
+            if (e.key === 'ArrowRight') showNextImage();
+        });
+
+        // Touch swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        lightbox.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        lightbox.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) showNextImage();
+            if (touchEndX > touchStartX + 50) showPrevImage();
+        }
+    </script>
+</body>
+</html>
