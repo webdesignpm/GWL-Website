@@ -1351,10 +1351,24 @@
     }
 
     /* JotForm Embed Styling */
+    .jotform-embed {
+        width: 100% !important;
+        min-height: 600px !important;
+    }
+    
     .jotform-embed iframe {
         width: 100% !important;
         min-height: 600px !important;
-        height: auto !important;
+        height: 600px !important;
+        max-width: 100% !important;
+        border: none !important;
+    }
+    
+    /* Additional specificity for JotForm */
+    div.jotform-embed iframe[src*="jotform.com"] {
+        width: 100% !important;
+        min-height: 600px !important;
+        height: 600px !important;
     }
 
     /* Mobile Responsive */
@@ -1447,6 +1461,11 @@
         
         .amenities-modal-content > div[style*="columns"] {
             columns: 1 !important;
+        }
+        
+        .jotform-embed iframe {
+            min-height: 500px !important;
+            height: 500px !important;
         }
     }
 </style>
@@ -1579,8 +1598,8 @@
     <div class="tab-content" id="reviews-tab">
         <div class="reviews-container" style="max-width: 100%; padding: 20px;">
             <h3 style="font-size: 28px; font-weight: 700; color: #031818; margin-bottom: 20px; text-align: center;">Reviews</h3>
-            <div style="width: 100%; min-height: 600px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-                <div class="jotform-embed" style="min-height: 1px;" data-id="24127489187106107" data-type="interactive" data-iframesource="www.jotform.com"></div>
+            <div style="width: 100%; min-height: 600px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                <div class="jotform-embed" data-id="24127489187106107" data-type="interactive" data-iframesource="www.jotform.com"></div>
                 <script>(function(doc, id){var scripts=doc.getElementsByTagName("script")[0]; if (!doc.getElementById(id)){var script=doc.createElement("script"); script.async=1; script.id=id; script.src="https://cdn.jotfor.ms/s/umd/latest/for-report-embed.js"; scripts.parentNode.insertBefore(script, scripts);}})(document, "jotform-async");</script>
             </div>
         </div>
