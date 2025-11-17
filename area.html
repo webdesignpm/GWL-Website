@@ -1328,13 +1328,36 @@
             });
         }
 
+        // Touch/Swipe support for mobile
+        let touchStartY = 0;
+        let touchEndY = 0;
+        
+        slider.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+        
+        slider.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50; // Minimum distance for a swipe
+            const diff = touchStartY - touchEndY;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe up - show next slide
+                    showSlide(currentSlide + 1);
+                } else {
+                    // Swipe down - show previous slide
+                    showSlide(currentSlide - 1);
+                }
+            }
+        }
+
         // Initialize progress bar
         updateProgressBar();
-
-        // Auto-advance every 5 seconds
-        setInterval(() => {
-            showSlide(currentSlide + 1);
-        }, 5000);
     })();
     </script>
 </body>
