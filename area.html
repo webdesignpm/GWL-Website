@@ -599,9 +599,146 @@
 
         .distance-time {
             font-family: 'Open Sans', sans-serif;
-            font-weight: 400;
+        }
+
+        /* Tourist Slider Styles */
+        .tourist-slider-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1a2a3a 0%, #0d1a26 100%);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .tourist-slider {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .tourist-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .tourist-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .tourist-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .tourist-slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 70%, transparent 100%);
+            color: white;
+            padding: 40px 30px 30px;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .tourist-slide-caption h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: white;
+        }
+
+        .tourist-slide-caption p {
+            font-family: 'Lato', sans-serif;
             font-size: 16px;
-            color: #4A4A4A;
+            margin: 0;
+            color: #CCCCCC;
+        }
+
+        .tourist-slider-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .tourist-slider-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .tourist-slider-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .tourist-slider-btn:active {
+            transform: scale(0.95);
+        }
+
+        .tourist-slider-progress {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .tourist-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4AA6A4 0%, #537BA6 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .tourist-slider {
+                height: 500px;
+            }
+
+            .tourist-slide-caption h3 {
+                font-size: 22px;
+            }
+
+            .tourist-slide-caption p {
+                font-size: 14px;
+            }
+
+            .tourist-slider-btn {
+                width: 40px;
+                height: 40px;
+            }
         }
 
         .attractions-grid {
@@ -910,38 +1047,57 @@
             <!-- Popular Tourist Locations -->
             <section class="area-section">
                 <h2 class="area-section-title">Many popular tourist locations:</h2>
-                <div class="distance-grid">
-                    <div class="distance-item">
-                        <span class="distance-location">Legoland, Goshen</span>
-                        <span class="distance-time">30 min</span>
+                
+                <!-- Vertical Tourist Slider -->
+                <div class="tourist-slider-container">
+                    <div class="tourist-slider">
+                        <!-- Slide 1: Niagara Falls -->
+                        <div class="tourist-slide active">
+                            <img src="assets/images/niagara-falls.jpg" alt="Niagara Falls" loading="lazy">
+                            <div class="tourist-slide-caption">
+                                <h3>Niagara Falls</h3>
+                                <p>6 hr drive</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 2: Times Square -->
+                        <div class="tourist-slide">
+                            <img src="assets/images/times-square.jpg" alt="Times Square, NYC" loading="lazy">
+                            <div class="tourist-slide-caption">
+                                <h3>Times Square, NYC</h3>
+                                <p>75 min drive</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 3: Legoland -->
+                        <div class="tourist-slide">
+                            <img src="assets/images/legoland-tourist.jpg" alt="Legoland, Goshen" loading="lazy">
+                            <div class="tourist-slide-caption">
+                                <h3>Legoland, Goshen</h3>
+                                <p>30 min drive</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Add more slides here as needed -->
                     </div>
-                    <div class="distance-item">
-                        <span class="distance-location">Times Square, NYC</span>
-                        <span class="distance-time">75 min</span>
+                    
+                    <!-- Navigation Controls -->
+                    <div class="tourist-slider-controls">
+                        <button type="button" class="tourist-slider-btn tourist-slider-up" aria-label="Previous">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M18 15L12 9L6 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="tourist-slider-btn tourist-slider-down" aria-label="Next">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
                     </div>
-                    <div class="distance-item">
-                        <span class="distance-location">Philadelphia, PA</span>
-                        <span class="distance-time">2 hr 20 min</span>
-                    </div>
-                    <div class="distance-item">
-                        <span class="distance-location">Hershey, PA</span>
-                        <span class="distance-time">3 hr 20 min</span>
-                    </div>
-                    <div class="distance-item">
-                        <span class="distance-location">Boston, MA</span>
-                        <span class="distance-time">4 hr</span>
-                    </div>
-                    <div class="distance-item">
-                        <span class="distance-location">Portland, ME</span>
-                        <span class="distance-time">5 hr 15 min</span>
-                    </div>
-                    <div class="distance-item">
-                        <span class="distance-location">Niagara Falls, US/Canada</span>
-                        <span class="distance-time">6 hr</span>
-                    </div>
-                    <div class="distance-item">
-                        <span class="distance-location">Acadia National Park, ME</span>
-                        <span class="distance-time">8 hr</span>
+                    
+                    <!-- Progress Indicator -->
+                    <div class="tourist-slider-progress">
+                        <div class="tourist-progress-bar"></div>
                     </div>
                 </div>
             </section>
@@ -1074,6 +1230,59 @@
         setInterval(() => {
             showSlide(currentSlide + 1);
         }, 3000);
+    })();
+
+    // Tourist Slider Functionality
+    (function() {
+        const slider = document.querySelector('.tourist-slider');
+        if (!slider) return;
+
+        const slides = document.querySelectorAll('.tourist-slide');
+        const upBtn = document.querySelector('.tourist-slider-up');
+        const downBtn = document.querySelector('.tourist-slider-down');
+        const progressBar = document.querySelector('.tourist-progress-bar');
+        let currentSlide = 0;
+
+        function updateProgressBar() {
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function showSlide(index) {
+            // Wrap around
+            if (index >= slides.length) currentSlide = 0;
+            else if (index < 0) currentSlide = slides.length - 1;
+            else currentSlide = index;
+
+            // Update slides
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === currentSlide);
+            });
+
+            updateProgressBar();
+        }
+
+        // Up button (previous)
+        if (upBtn) {
+            upBtn.addEventListener('click', () => {
+                showSlide(currentSlide - 1);
+            });
+        }
+
+        // Down button (next)
+        if (downBtn) {
+            downBtn.addEventListener('click', () => {
+                showSlide(currentSlide + 1);
+            });
+        }
+
+        // Initialize progress bar
+        updateProgressBar();
+
+        // Auto-advance every 5 seconds
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
     })();
     </script>
 </body>
