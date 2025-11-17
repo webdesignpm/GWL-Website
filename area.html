@@ -1006,12 +1006,24 @@
     // Bethel Carousel Functionality
     (function() {
         const carousel = document.querySelector('.bethel-carousel');
-        if (!carousel) return;
+        if (!carousel) {
+            console.error('Carousel not found!');
+            return;
+        }
 
         const slides = document.querySelectorAll('.bethel-slide');
         const dots = document.querySelectorAll('.carousel-dots .dot');
         const prevBtn = document.querySelector('.carousel-prev');
         const nextBtn = document.querySelector('.carousel-next');
+        
+        console.log('Carousel elements:', {
+            carousel,
+            slides: slides.length,
+            dots: dots.length,
+            prevBtn,
+            nextBtn
+        });
+        
         let currentSlide = 0;
 
         function showSlide(index) {
@@ -1034,15 +1046,21 @@
         // Previous button
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
+                console.log('Prev button clicked, current slide:', currentSlide);
                 showSlide(currentSlide - 1);
             });
+        } else {
+            console.error('Prev button not found!');
         }
 
         // Next button
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
+                console.log('Next button clicked, current slide:', currentSlide);
                 showSlide(currentSlide + 1);
             });
+        } else {
+            console.error('Next button not found!');
         }
 
         // Dot navigation
