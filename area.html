@@ -748,15 +748,27 @@
             margin-top: 40px;
         }
 
+        .attraction-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
         .attraction-card {
             background: #FFFFFF;
             border-radius: 24px;
             overflow: hidden;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
         }
 
         .attraction-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .attraction-card-link:hover .attraction-card {
             transform: translateY(-4px);
             box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
         }
@@ -1158,13 +1170,15 @@
             <section class="area-section">
                 <h2 class="area-section-title">Local Attractions</h2>
                 <div class="attractions-grid">
-                    <div class="attraction-card">
-                        <img src="assets/images/bellvale-creamery.jpg" alt="Bellvale Creamery" class="attraction-image" loading="lazy">
-                        <div class="attraction-content">
-                            <h3 class="attraction-title">Bellvale Creamery</h3>
-                            <p class="attraction-description">Great ice cream with a beautiful view.</p>
+                    <a href="https://bellvalefarms.com" target="_blank" rel="noopener noreferrer" class="attraction-card-link">
+                        <div class="attraction-card">
+                            <img src="assets/images/bellvale-creamery.jpg" alt="Bellvale Creamery" class="attraction-image" loading="lazy">
+                            <div class="attraction-content">
+                                <h3 class="attraction-title">Bellvale Creamery</h3>
+                                <p class="attraction-description">Great ice cream with a beautiful view.</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
 
                     <div class="attraction-card">
                         <img src="assets/images/greenwood-roasters.jpg" alt="Greenwood Lake Roasters" class="attraction-image" loading="lazy">
