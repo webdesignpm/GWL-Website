@@ -552,10 +552,25 @@
         .area-section-title {
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
-            font-size: 47px;
+            font-size: 40px;
             line-height: 1.2;
-            color: #1A1A1A;
+            color: #031818;
             margin: 0 0 32px 0;
+        }
+
+        .section-image-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .distance-grid {
@@ -939,6 +954,12 @@
             <!-- Distance to Nearby Airports -->
             <section class="area-section">
                 <h2 class="area-section-title">Distance to Nearby Airports</h2>
+                
+                <!-- Airport Image -->
+                <div class="section-image-container">
+                    <img src="assets/images/nearby-airports.jpeg" alt="Nearby Airports" loading="lazy">
+                </div>
+                
                 <div class="distance-grid">
                     <div class="distance-item">
                         <span class="distance-location">Newark Airport</span>
