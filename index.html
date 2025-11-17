@@ -31,10 +31,6 @@
         scroll-behavior: smooth;
     }
     
-    body {
-        padding-top: 104px; /* Account for fixed navbar height */
-    }
-    
     /* Navbar Styles */
     .custom-navbar {
         position: fixed;
@@ -414,10 +410,6 @@
     }
 
     @media (max-width: 768px) {
-        body {
-            padding-top: 88px;
-        }
-
         .custom-navbar {
             height: 88px;
         }
@@ -448,10 +440,6 @@
     }
 
     @media (max-width: 480px) {
-        body {
-            padding-top: 72px;
-        }
-
         .custom-navbar {
             height: 72px;
         }
@@ -621,7 +609,7 @@
         width: 100%;
         max-width: 1800px;
         height: 480px;
-        margin: 0 auto;
+        margin: 104px auto 0 auto; /* Top margin for navbar, auto sides for centering */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -790,6 +778,7 @@
     @media (max-width: 810px) {
         .hero-section {
             height: 600px;
+            margin-top: 88px; /* Adjust for smaller navbar on tablet */
         }
 
         .hero-content {
@@ -826,6 +815,7 @@
     @media (max-width: 480px) {
         .hero-section {
             height: 500px;
+            margin-top: 72px; /* Adjust for smaller navbar on mobile */
         }
 
         .hero-content {
