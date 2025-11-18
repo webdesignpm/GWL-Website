@@ -1153,6 +1153,30 @@
         max-width: 800px;
         margin: 0 auto;
     }
+    
+    .reviews-container-wrapper {
+        max-width: 100%;
+        padding: 20px;
+    }
+    
+    .reviews-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #031818;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .reviews-embed-container {
+        width: 100%;
+        min-height: 600px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
     .review-card {
         background: white;
@@ -1463,9 +1487,31 @@
             columns: 1 !important;
         }
         
+        .reviews-container-wrapper {
+            padding: 10px;
+        }
+        
+        .reviews-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        
+        .reviews-embed-container {
+            min-height: 400px;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        
+        .jotform-embed {
+            width: 100% !important;
+            min-width: 100% !important;
+        }
+        
         .jotform-embed iframe {
-            min-height: 500px !important;
-            height: 500px !important;
+            min-height: 400px !important;
+            height: 400px !important;
+            width: 100% !important;
+            max-width: 100% !important;
         }
     }
 </style>
@@ -1596,9 +1642,9 @@
 
     <!-- Reviews Tab -->
     <div class="tab-content" id="reviews-tab">
-        <div class="reviews-container" style="max-width: 100%; padding: 20px;">
-            <h3 style="font-size: 28px; font-weight: 700; color: #031818; margin-bottom: 20px; text-align: center;">Reviews</h3>
-            <div style="width: 100%; min-height: 600px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+        <div class="reviews-container-wrapper">
+            <h3 class="reviews-title">Reviews</h3>
+            <div class="reviews-embed-container">
                 <div class="jotform-embed" data-id="24127489187106107" data-type="interactive" data-iframesource="www.jotform.com"></div>
                 <script>(function(doc, id){var scripts=doc.getElementsByTagName("script")[0]; if (!doc.getElementById(id)){var script=doc.createElement("script"); script.async=1; script.id=id; script.src="https://cdn.jotfor.ms/s/umd/latest/for-report-embed.js"; scripts.parentNode.insertBefore(script, scripts);}})(document, "jotform-async");</script>
             </div>
@@ -1751,28 +1797,174 @@
 </div>
 
 <!-- Lightbox -->
-<div id="photoLightbox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:99999;opacity:0;transition:opacity 0.3s;">
-    <button id="closeLightboxBtn" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.9);border:none;width:50px;height:50px;border-radius:50%;cursor:pointer;color:#031818;z-index:100000;display:flex;align-items:center;justify-content:center;">
+<style>
+    #photoLightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 99999;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    #closeLightboxBtn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        color: #031818;
+        z-index: 100000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    #prevLightboxBtn,
+    #nextLightboxBtn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        color: #031818;
+        z-index: 100000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    #prevLightboxBtn {
+        left: 20px;
+    }
+    
+    #nextLightboxBtn {
+        right: 20px;
+    }
+    
+    .lightbox-image-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 60px 20px;
+    }
+    
+    #lightboxImage {
+        max-width: 90%;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 8px;
+    }
+    
+    #lightboxCaptionDisplay {
+        position: absolute;
+        bottom: 70px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        color: #031818;
+        max-width: 80%;
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    #lightboxCounterDisplay {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        color: #031818;
+    }
+    
+    /* Mobile Lightbox Improvements */
+    @media (max-width: 768px) {
+        #closeLightboxBtn {
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+        }
+        
+        #prevLightboxBtn,
+        #nextLightboxBtn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        #prevLightboxBtn {
+            left: 10px;
+        }
+        
+        #nextLightboxBtn {
+            right: 10px;
+        }
+        
+        .lightbox-image-container {
+            padding: 80px 10px 100px 10px;
+        }
+        
+        #lightboxImage {
+            max-width: 95%;
+            max-height: 80vh;
+        }
+        
+        #lightboxCaptionDisplay {
+            bottom: 60px;
+            padding: 8px 16px;
+            font-size: 14px;
+            max-width: 90%;
+        }
+        
+        #lightboxCounterDisplay {
+            bottom: 15px;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+    }
+</style>
+<div id="photoLightbox">
+    <button id="closeLightboxBtn">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
     </button>
-    <button id="prevLightboxBtn" style="position:absolute;top:50%;left:20px;transform:translateY(-50%);background:rgba(255,255,255,0.9);border:none;width:50px;height:50px;border-radius:50%;cursor:pointer;color:#031818;z-index:100000;display:flex;align-items:center;justify-content:center;">
+    <button id="prevLightboxBtn">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
             <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
     </button>
-    <button id="nextLightboxBtn" style="position:absolute;top:50%;right:20px;transform:translateY(-50%);background:rgba(255,255,255,0.9);border:none;width:50px;height:50px;border-radius:50%;cursor:pointer;color:#031818;z-index:100000;display:flex;align-items:center;justify-content:center;">
+    <button id="nextLightboxBtn">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
             <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
     </button>
-    <div style="display:flex;align-items:center;justify-content:center;height:100%;padding:60px;">
-        <img id="lightboxImage" src="" style="max-width:90%;max-height:90vh;object-fit:contain;border-radius:8px;">
+    <div class="lightbox-image-container">
+        <img id="lightboxImage" src="" alt="">
     </div>
-    <div id="lightboxCaptionDisplay" style="position:absolute;bottom:70px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.95);padding:12px 24px;border-radius:12px;font-weight:600;color:#031818;max-width:80%;text-align:center;font-family:'Montserrat',sans-serif;"></div>
-    <div id="lightboxCounterDisplay" style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.9);padding:10px 20px;border-radius:20px;font-weight:600;color:#031818;"></div>
+    <div id="lightboxCaptionDisplay"></div>
+    <div id="lightboxCounterDisplay"></div>
 </div>
 
 <script>
