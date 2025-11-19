@@ -251,6 +251,48 @@
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     }
 
+    /* Mobile CTA Button */
+    .mobile-cta-button {
+        display: none;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: linear-gradient(180deg, #4AA6A4 39.83%, #537BA6 100%);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 10px 20px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+        z-index: 3;
+        text-decoration: none;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-cta-button:hover {
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .mobile-cta-button:active {
+        transform: translateY(-50%) scale(0.98);
+    }
+
+    /* CTA Button Text Variants */
+    .mobile-cta-button .cta-short-text {
+        display: none;
+    }
+
+    .mobile-cta-button .cta-full-text {
+        display: inline;
+    }
+
     /* Mobile Menu Toggle */
     .mobile-menu-toggle {
         display: none;
@@ -411,6 +453,10 @@
             display: flex;
         }
 
+        .mobile-cta-button {
+            display: inline-flex;
+        }
+
         .navbar-logo {
             width: 150px;
         }
@@ -435,6 +481,12 @@
             left: 16px;
         }
 
+        .mobile-cta-button {
+            right: 16px;
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
         .mobile-menu {
             top: 88px;
             max-height: calc(100vh - 88px);
@@ -457,12 +509,26 @@
         }
 
         .navbar-logo {
-            width: 120px;
+            width: 100px;
             height: 72px;
         }
 
         .mobile-menu-toggle {
-            left: 12px;
+            left: 10px;
+        }
+
+        .mobile-cta-button {
+            right: 10px;
+            padding: 6px 12px;
+            font-size: 11px;
+        }
+
+        .mobile-cta-button .cta-full-text {
+            display: none;
+        }
+
+        .mobile-cta-button .cta-short-text {
+            display: inline;
         }
 
         .mobile-menu {
@@ -537,6 +603,12 @@
                 <path d="M3 12H21M3 6H21M3 18H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
+
+        <!-- Mobile CTA Button -->
+        <a href="https://greenwood-lake-getaway-production-30b8.up.railway.app/booking" class="mobile-cta-button" aria-label="Request reservation">
+            <span class="cta-full-text">Request Reservation</span>
+            <span class="cta-short-text">Reserve</span>
+        </a>
     </div>
 
     <!-- Mobile Menu -->
@@ -903,6 +975,12 @@
         font-family: 'Montserrat', sans-serif;
     }
 
+    /* Gallery tab can extend beyond parent */
+    #gallery-tab {
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+
     /* Tab Navigation */
     .tab-navigation {
         display: flex;
@@ -973,8 +1051,9 @@
     .gallery-carousel {
         position: relative;
         width: 100%;
+        max-width: 1400px;
         margin: 0 auto;
-        padding: 0 60px;
+        padding: 0 70px;
     }
 
     .carousel-container {
@@ -989,6 +1068,8 @@
         position: relative;
         width: 100%;
         height: 100%;
+        overflow: hidden;
+        border-radius: 20px;
     }
 
     .carousel-slide {
@@ -1395,7 +1476,14 @@
         height: 600px !important;
     }
 
-    /* Mobile Responsive */
+    /* Tablet Responsive */
+    @media (max-width: 1024px) and (min-width: 769px) {
+        .gallery-carousel {
+            padding: 0 50px;
+        }
+    }
+
+    /* Mobile Responsive - Full bleed */
     @media (max-width: 768px) {
         .tab-navigation {
             border-radius: 30px;
@@ -1417,31 +1505,37 @@
             padding: 0 10px;
         }
 
+        #gallery-tab {
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+
         .gallery-carousel {
-            padding: 0 40px;
+            padding: 0;
         }
 
         .carousel-container {
+            width: 100%;
             aspect-ratio: 4/3;
             min-height: 250px;
         }
 
+        .carousel-track {
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            border-radius: 0 !important;
+        }
+
+        .carousel-slide img {
+            border-radius: 0 !important;
+            border: none !important;
+        }
+
         .carousel-nav {
-            width: 35px;
-            height: 35px;
-        }
-        
-        .carousel-nav svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .carousel-prev {
-            left: 5px;
-        }
-
-        .carousel-next {
-            right: 5px;
+            display: none;
         }
         
         .carousel-slide {
