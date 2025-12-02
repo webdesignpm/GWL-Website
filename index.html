@@ -1248,7 +1248,6 @@
         padding: 20px;
     }
     
-    
     .reviews-embed-container {
         width: 100%;
         min-height: 600px;
@@ -1456,27 +1455,6 @@
         line-height: 1.4;
     }
 
-    /* JotForm Embed Styling */
-    .jotform-embed {
-        width: 100% !important;
-        min-height: 600px !important;
-    }
-    
-    .jotform-embed iframe {
-        width: 100% !important;
-        min-height: 600px !important;
-        height: 600px !important;
-        max-width: 100% !important;
-        border: none !important;
-    }
-    
-    /* Additional specificity for JotForm */
-    div.jotform-embed iframe[src*="jotform.com"] {
-        width: 100% !important;
-        min-height: 600px !important;
-        height: 600px !important;
-    }
-
     /* Tablet Responsive */
     @media (max-width: 1024px) and (min-width: 769px) {
         .gallery-carousel {
@@ -1609,24 +1587,12 @@
             padding: 10px;
         }
         
-        
         .reviews-embed-container {
             min-height: 400px;
             border-radius: 8px;
             padding: 10px;
         }
         
-        .jotform-embed {
-            width: 100% !important;
-            min-width: 100% !important;
-        }
-        
-        .jotform-embed iframe {
-            min-height: 400px !important;
-            height: 400px !important;
-            width: 100% !important;
-            max-width: 100% !important;
-        }
     }
     
     /* Small Mobile Responsive */
@@ -2358,7 +2324,6 @@
         if (closeModalBtn) {
             closeModalBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                console.log('Close button clicked');
                 amenitiesModal.classList.remove('active');
                 document.body.style.overflow = '';
             });
