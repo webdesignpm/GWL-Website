@@ -686,9 +686,8 @@
     .hero-section {
         position: relative;
         width: 100%;
-        max-width: 1800px;
         height: 480px;
-        margin: 104px auto 0 auto; /* Top margin for navbar, auto sides for centering */
+        margin-top: 104px; /* Top margin for navbar */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -833,12 +832,6 @@
     }
 
     /* Responsive Hero Section */
-    @media (max-width: 1800px) {
-        .hero-section {
-            max-width: 100%;
-        }
-    }
-
     @media (max-width: 1200px) {
         .hero-title {
             font-size: 64px;
@@ -969,16 +962,17 @@
 <!-- Custom Gallery/Amenities/Reviews Section -->
 <style>
     .custom-tabs-section {
-        max-width: 870px;
+        max-width: 1200px;
         margin: 60px auto;
         padding: 0 20px;
         font-family: 'Montserrat', sans-serif;
     }
 
-    /* Gallery tab can extend beyond parent */
-    #gallery-tab {
-        margin-left: -20px;
-        margin-right: -20px;
+    /* Tab navigation stays narrower for aesthetics */
+    .custom-tabs-section .tab-navigation {
+        max-width: 750px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     /* Tab Navigation */
@@ -989,8 +983,6 @@
         border-radius: 50px;
         padding: 8px;
         margin-bottom: 40px;
-        margin-left: 60px;
-        margin-right: 60px;
         box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     }
 
@@ -1051,9 +1043,10 @@
     .gallery-carousel {
         position: relative;
         width: 100%;
-        max-width: 1400px;
+        max-width: 1100px;
         margin: 0 auto;
-        padding: 0 70px;
+        padding: 0 60px;
+        box-sizing: border-box;
     }
 
     .carousel-container {
@@ -1062,6 +1055,7 @@
         aspect-ratio: 16/10;
         perspective: 1000px;
         min-height: 300px;
+        max-height: 80vh;
     }
 
     .carousel-track {
@@ -1087,9 +1081,15 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center;
         border: 8px solid white;
         border-radius: 20px;
         box-sizing: border-box;
+        display: block;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        transform: translateZ(0);
+        image-rendering: -webkit-optimize-contrast;
     }
 
     /* Slide positioning - stack effect */
@@ -1147,11 +1147,11 @@
     }
 
     .carousel-prev {
-        left: 20px;
+        left: -25px;
     }
 
     .carousel-next {
-        right: 20px;
+        right: -25px;
     }
 
     .carousel-dots {
@@ -1240,13 +1240,6 @@
         padding: 20px;
     }
     
-    .reviews-title {
-        font-size: 28px;
-        font-weight: 700;
-        color: #031818;
-        margin-bottom: 20px;
-        text-align: center;
-    }
     
     .reviews-embed-container {
         width: 100%;
@@ -1481,6 +1474,29 @@
         .gallery-carousel {
             padding: 0 50px;
         }
+        
+        .carousel-container {
+            aspect-ratio: 16/9;
+            min-height: 280px;
+        }
+        
+        .carousel-slide img {
+            border-width: 6px;
+        }
+        
+        .carousel-nav {
+            width: 44px;
+            height: 44px;
+            font-size: 20px;
+        }
+        
+        .carousel-prev {
+            left: -22px;
+        }
+        
+        .carousel-next {
+            right: -22px;
+        }
     }
 
     /* Mobile Responsive - Full bleed */
@@ -1502,16 +1518,15 @@
         }
 
         .custom-tabs-section {
-            padding: 0 10px;
+            padding: 0 15px;
         }
 
-        #gallery-tab {
-            margin-left: -10px;
-            margin-right: -10px;
+        .custom-tabs-section .tab-navigation {
+            max-width: 100%;
         }
 
         .gallery-carousel {
-            padding: 0;
+            padding: 0 10px;
         }
 
         .carousel-container {
@@ -1532,6 +1547,7 @@
         .carousel-slide img {
             border-radius: 0 !important;
             border: none !important;
+            object-position: center;
         }
 
         .carousel-nav {
@@ -1585,10 +1601,6 @@
             padding: 10px;
         }
         
-        .reviews-title {
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
         
         .reviews-embed-container {
             min-height: 400px;
@@ -1606,6 +1618,45 @@
             height: 400px !important;
             width: 100% !important;
             max-width: 100% !important;
+        }
+    }
+    
+    /* Small Mobile Responsive */
+    @media (max-width: 480px) {
+        .carousel-container {
+            aspect-ratio: 4/3;
+            min-height: 200px;
+        }
+        
+        .carousel-dots {
+            gap: 6px;
+        }
+        
+        .carousel-dots button {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .tab-button {
+            padding: 10px 6px;
+            font-size: 12px;
+        }
+        
+        .tab-button svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+    
+    /* Touch device optimizations */
+    @media (hover: none) and (pointer: coarse) {
+        .carousel-track {
+            touch-action: pan-x;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .carousel-slide {
+            -webkit-tap-highlight-color: transparent;
         }
     }
 </style>
@@ -1737,10 +1788,13 @@
     <!-- Reviews Tab -->
     <div class="tab-content" id="reviews-tab">
         <div class="reviews-container-wrapper">
-            <h3 class="reviews-title">Reviews</h3>
             <div class="reviews-embed-container">
-                <div class="jotform-embed" data-id="24127489187106107" data-type="interactive" data-iframesource="www.jotform.com"></div>
-                <script>(function(doc, id){var scripts=doc.getElementsByTagName("script")[0]; if (!doc.getElementById(id)){var script=doc.createElement("script"); script.async=1; script.id=id; script.src="https://cdn.jotfor.ms/s/umd/latest/for-report-embed.js"; scripts.parentNode.insertBefore(script, scripts);}})(document, "jotform-async");</script>
+                <iframe 
+                    src="https://greenwood-lake-getaway-production-30b8.up.railway.app/testimonials-widget" 
+                    style="width: 100%; min-height: 500px; border: none; border-radius: 12px;"
+                    loading="lazy"
+                    title="Guest Reviews">
+                </iframe>
             </div>
         </div>
     </div>
@@ -2109,7 +2163,7 @@
         // Create slide
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
-        slide.innerHTML = `<img src="${photo.src}" alt="${photo.caption}">`;
+        slide.innerHTML = `<img src="${photo.src}" alt="${photo.caption}" loading="${index < 3 ? 'eager' : 'lazy'}" decoding="async">`;
         slide.addEventListener('click', () => openLightbox(index));
         carouselTrack.appendChild(slide);
 
@@ -2152,6 +2206,34 @@
         currentSlide = (currentSlide + 1) % galleryPhotos.length;
         goToSlide(currentSlide);
     });
+
+    // Touch swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeThreshold = 50;
+
+    carouselTrack.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    carouselTrack.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        const swipeDistance = touchEndX - touchStartX;
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+            if (swipeDistance < 0) {
+                // Swipe left - next slide
+                currentSlide = (currentSlide + 1) % galleryPhotos.length;
+            } else {
+                // Swipe right - previous slide
+                currentSlide = (currentSlide - 1 + galleryPhotos.length) % galleryPhotos.length;
+            }
+            goToSlide(currentSlide);
+        }
+    }
 
     // Tab switching
     document.querySelectorAll('.tab-button').forEach(button => {
@@ -2233,6 +2315,26 @@
         if (e.key === 'ArrowLeft') showPrevLightbox();
         if (e.key === 'ArrowRight') showNextLightbox();
     });
+
+    // Lightbox touch swipe support
+    let lightboxTouchStartX = 0;
+    let lightboxTouchEndX = 0;
+
+    photoLightbox.addEventListener('touchstart', (e) => {
+        lightboxTouchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    photoLightbox.addEventListener('touchend', (e) => {
+        lightboxTouchEndX = e.changedTouches[0].screenX;
+        const swipeDistance = lightboxTouchEndX - lightboxTouchStartX;
+        if (Math.abs(swipeDistance) > 50) {
+            if (swipeDistance < 0) {
+                showNextLightbox();
+            } else {
+                showPrevLightbox();
+            }
+        }
+    }, { passive: true });
 
     // Amenities modal
     const showAmenitiesBtn = document.getElementById('showAllAmenitiesBtn');
