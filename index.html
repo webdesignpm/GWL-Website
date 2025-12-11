@@ -2623,11 +2623,20 @@
 
     .rates-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 32px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
         width: 100%;
-        max-width: 900px;
+        max-width: 1200px;
         margin: 0 auto;
+    }
+    
+    .rates-grid-discounts {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        width: 100%;
+        max-width: 800px;
+        margin: 40px auto 0;
     }
 
     .rate-card {
@@ -2770,6 +2779,11 @@
         .rates-grid {
             gap: 24px;
         }
+        
+        .rates-grid-discounts {
+            gap: 24px;
+            margin-top: 32px;
+        }
     }
 
     @media (max-width: 768px) {
@@ -2786,6 +2800,13 @@
             grid-template-columns: 1fr;
             gap: 20px;
             max-width: 450px;
+        }
+        
+        .rates-grid-discounts {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 450px;
+            margin-top: 20px;
         }
 
         .rate-card {
@@ -2846,10 +2867,11 @@
         <h2 class="rates-title">Rates</h2>
         
         <div class="rates-grid">
-            <!-- Off Season Rate Card -->
+            <!-- 3 Bedroom Tier -->
             <div class="rate-card">
-                <p class="rate-card-label">OFF SEASON NIGHTLY RATE (Dec - April)</p>
-                <div class="rate-card-price">$325<span class="rate-card-price-suffix">/night</span></div>
+                <p class="rate-card-label">3 BEDROOMS</p>
+                <div class="rate-card-price">$379<span class="rate-card-price-suffix">/night</span></div>
+                <p class="rate-card-description" style="margin-bottom: 16px; color: #666;">Peak Season (May - Nov)</p>
                 <ul class="rate-card-features">
                     <li class="rate-card-feature">
                         <span class="rate-card-checkmark"></span>
@@ -2857,55 +2879,40 @@
                     </li>
                     <li class="rate-card-feature">
                         <span class="rate-card-checkmark"></span>
+                        <span>$329/night Off-Peak (Dec - April)</span>
+                    </li>
+                    <li class="rate-card-feature">
+                        <span class="rate-card-checkmark"></span>
+                        <span>$240 cleaning fee</span>
+                    </li>
+                    <li class="rate-card-feature">
+                        <span class="rate-card-checkmark"></span>
                         <span>2 night minimum stay.</span>
                     </li>
                     <li class="rate-card-feature">
                         <span class="rate-card-checkmark"></span>
-                        <span>Check-in 4 pm</span>
-                    </li>
-                    <li class="rate-card-feature">
-                        <span class="rate-card-checkmark"></span>
-                        <span>Check-out 11 am</span>
-                    </li>
-                    <li class="rate-card-feature">
-                        <span class="rate-card-checkmark"></span>
-                        <span>$195 cleaning fee</span>
+                        <span>Check-in 4 pm / Check-out 11 am</span>
                     </li>
                     <li class="rate-card-feature">
                         <span class="rate-card-checkmark"></span>
                         <span>5% Orange CO Occupancy Tax</span>
                     </li>
-                    <li class="rate-card-feature">
-                        <span class="rate-card-checkmark"></span>
-                        <span>50% due at time of booking.</span>
-                    </li>
-                    <li class="rate-card-feature">
-                        <span class="rate-card-checkmark"></span>
-                        <span>Remaining is due 2 weeks before arrival.</span>
-                    </li>
                 </ul>
             </div>
 
-            <!-- Peak Season Rate Card -->
+            <!-- 2 Bedroom Tier -->
             <div class="rate-card">
-                <p class="rate-card-label">PEAK SEASON NIGHTLY RATE (May - Nov)</p>
-                <div class="rate-card-price">$349<span class="rate-card-price-suffix">/night</span></div>
+                <p class="rate-card-label">2 BEDROOMS</p>
+                <div class="rate-card-price">$329<span class="rate-card-price-suffix">/night</span></div>
+                <p class="rate-card-description" style="margin-bottom: 16px; color: #666;">Peak Season (May - Nov)</p>
                 <ul class="rate-card-features">
                     <li class="rate-card-feature">
                         <span class="rate-card-checkmark"></span>
-                        <span>Up to 6 guests including children.</span>
+                        <span>Up to 4 guests including children.</span>
                     </li>
                     <li class="rate-card-feature">
                         <span class="rate-card-checkmark"></span>
-                        <span>2 night minimum stay.</span>
-                    </li>
-                    <li class="rate-card-feature">
-                        <span class="rate-card-checkmark"></span>
-                        <span>Check-in 4 pm</span>
-                    </li>
-                    <li class="rate-card-feature">
-                        <span class="rate-card-checkmark"></span>
-                        <span>Check-out 11 am</span>
+                        <span>$279/night Off-Peak (Dec - April)</span>
                     </li>
                     <li class="rate-card-feature">
                         <span class="rate-card-checkmark"></span>
@@ -2913,31 +2920,67 @@
                     </li>
                     <li class="rate-card-feature">
                         <span class="rate-card-checkmark"></span>
+                        <span>2 night minimum stay.</span>
+                    </li>
+                    <li class="rate-card-feature">
+                        <span class="rate-card-checkmark"></span>
+                        <span>Check-in 4 pm / Check-out 11 am</span>
+                    </li>
+                    <li class="rate-card-feature">
+                        <span class="rate-card-checkmark"></span>
                         <span>5% Orange CO Occupancy Tax</span>
-                    </li>
-                    <li class="rate-card-feature">
-                        <span class="rate-card-checkmark"></span>
-                        <span>50% due at time of booking.</span>
-                    </li>
-                    <li class="rate-card-feature">
-                        <span class="rate-card-checkmark"></span>
-                        <span>Remaining is due 2 weeks before arrival.</span>
                     </li>
                 </ul>
             </div>
 
+            <!-- 1 Bedroom Tier -->
+            <div class="rate-card">
+                <p class="rate-card-label">1 BEDROOM</p>
+                <div class="rate-card-price">$249<span class="rate-card-price-suffix">/night</span></div>
+                <p class="rate-card-description" style="margin-bottom: 16px; color: #666;">Peak Season (May - Nov)</p>
+                <ul class="rate-card-features">
+                    <li class="rate-card-feature">
+                        <span class="rate-card-checkmark"></span>
+                        <span>Up to 2 guests including children.</span>
+                    </li>
+                    <li class="rate-card-feature">
+                        <span class="rate-card-checkmark"></span>
+                        <span>$219/night Off-Peak (Dec - April)</span>
+                    </li>
+                    <li class="rate-card-feature">
+                        <span class="rate-card-checkmark"></span>
+                        <span>$150 cleaning fee</span>
+                    </li>
+                    <li class="rate-card-feature">
+                        <span class="rate-card-checkmark"></span>
+                        <span>2 night minimum stay.</span>
+                    </li>
+                    <li class="rate-card-feature">
+                        <span class="rate-card-checkmark"></span>
+                        <span>Check-in 4 pm / Check-out 11 am</span>
+                    </li>
+                    <li class="rate-card-feature">
+                        <span class="rate-card-checkmark"></span>
+                        <span>5% Orange CO Occupancy Tax</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Discount Cards -->
+        <div class="rates-grid-discounts">
             <!-- Spontaneous Getaway Card -->
             <div class="rate-card">
                 <p class="rate-card-label special">Special discount</p>
-                <h3 class="rate-card-heading">Planning a spontaneous getaway?</h3>
-                <p class="rate-card-description">Book any available nights in the next 45 days for $275/night!</p>
-                <p class="rate-card-note">Price will be adjusted at time of invoicing.</p>
+                <h3 class="rate-card-heading">Spontaneous Getaway</h3>
+                <p class="rate-card-description">Book any available nights in the next 45 days and get 20% off!</p>
+                <p class="rate-card-note">Discount will be applied at time of invoicing.</p>
             </div>
 
-            <!-- 15% Off Card -->
+            <!-- 10% Off Card -->
             <div class="rate-card">
                 <p class="rate-card-label special">Special discount</p>
-                <h3 class="rate-card-heading">15% Off</h3>
+                <h3 class="rate-card-heading">10% Off</h3>
                 <ul class="rate-card-features">
                     <li class="rate-card-feature">
                         <span class="rate-card-checkmark"></span>
