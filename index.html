@@ -3165,9 +3165,9 @@
 <!-- FOOTER -->
 <footer style="background: #f5f5f5; padding: 30px 20px; text-align: center; border-top: 1px solid #e0e0e0;">
     <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; font-size: 14px; color: #5a6a6a;">
-        <a href="#" style="color: #5a6a6a; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#4AA6A4'" onmouseout="this.style.color='#5a6a6a'">Privacy Policy</a>
+        <a href="#privacy" style="color: #5a6a6a; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#4AA6A4'" onmouseout="this.style.color='#5a6a6a'">Privacy Policy</a>
         <span style="color: #c0c0c0;">•</span>
-        <a href="#" style="color: #5a6a6a; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#4AA6A4'" onmouseout="this.style.color='#5a6a6a'">Terms of Service</a>
+        <a href="#terms" style="color: #5a6a6a; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#4AA6A4'" onmouseout="this.style.color='#5a6a6a'">Terms of Service</a>
         <span style="color: #c0c0c0;">•</span>
         <a href="#contact" style="color: #5a6a6a; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#4AA6A4'" onmouseout="this.style.color='#5a6a6a'">Contact Us</a>
         <span style="color: #c0c0c0;">•</span>
@@ -3176,6 +3176,267 @@
     <p style="margin-top: 15px; font-size: 12px; color: #8a9a9a;">© 2024 Greenwood Lake Getaway. All rights reserved.</p>
 </footer>
 <!-- END FOOTER -->
+
+<!-- PRIVACY POLICY MODAL -->
+<style>
+    .legal-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 10000;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .legal-modal.active {
+        display: flex;
+        opacity: 1;
+    }
+
+    .legal-modal-content {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        max-width: 700px;
+        width: 90%;
+        max-height: 85vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .legal-modal-close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: #666;
+        transition: color 0.2s;
+    }
+
+    .legal-modal-close:hover {
+        color: #333;
+    }
+
+    .legal-modal-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #031818;
+        margin-bottom: 10px;
+    }
+
+    .legal-modal-updated {
+        font-size: 13px;
+        color: #888;
+        margin-bottom: 25px;
+    }
+
+    .legal-modal-content h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #031818;
+        margin-top: 25px;
+        margin-bottom: 10px;
+    }
+
+    .legal-modal-content p {
+        font-size: 14px;
+        line-height: 1.7;
+        color: #555;
+        margin-bottom: 15px;
+    }
+
+    .legal-modal-content ul {
+        margin: 10px 0 15px 20px;
+        font-size: 14px;
+        line-height: 1.7;
+        color: #555;
+    }
+
+    .legal-modal-content li {
+        margin-bottom: 8px;
+    }
+
+    @media (max-width: 768px) {
+        .legal-modal-content {
+            padding: 30px 20px;
+        }
+
+        .legal-modal-title {
+            font-size: 24px;
+        }
+    }
+</style>
+
+<div class="legal-modal" id="privacyModal">
+    <div class="legal-modal-content">
+        <button class="legal-modal-close" id="closePrivacyModal" aria-label="Close">&times;</button>
+        
+        <h2 class="legal-modal-title">Privacy Policy</h2>
+        <p class="legal-modal-updated">Last updated: December 2024</p>
+        
+        <p>Greenwood Lake Getaway ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website or make a reservation.</p>
+        
+        <h3>Information We Collect</h3>
+        <p>We collect information you provide directly to us, including:</p>
+        <ul>
+            <li>Name and contact information (email, phone number)</li>
+            <li>Guest details for reservations</li>
+            <li>Communication preferences</li>
+            <li>Messages sent through our contact form</li>
+        </ul>
+        
+        <h3>How We Use Your Information</h3>
+        <p>We use the information we collect to:</p>
+        <ul>
+            <li>Process and manage your reservations</li>
+            <li>Communicate with you about your stay</li>
+            <li>Send check-in instructions and property information</li>
+            <li>Respond to your inquiries and requests</li>
+            <li>Improve our services and guest experience</li>
+        </ul>
+        
+        <h3>Information Sharing</h3>
+        <p>We do not sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:</p>
+        <ul>
+            <li>With service providers who assist in operating our rental (e.g., cleaning services)</li>
+            <li>When required by law or to protect our rights</li>
+            <li>With your consent</li>
+        </ul>
+        
+        <h3>Data Security</h3>
+        <p>We implement appropriate security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.</p>
+        
+        <h3>Cookies</h3>
+        <p>Our website may use cookies to enhance your browsing experience. You can set your browser to refuse cookies, though some features may not function properly.</p>
+        
+        <h3>Contact Us</h3>
+        <p>If you have questions about this Privacy Policy, please contact us through our website contact form.</p>
+    </div>
+</div>
+
+<!-- TERMS OF SERVICE MODAL -->
+<div class="legal-modal" id="termsModal">
+    <div class="legal-modal-content">
+        <button class="legal-modal-close" id="closeTermsModal" aria-label="Close">&times;</button>
+        
+        <h2 class="legal-modal-title">Terms of Service</h2>
+        <p class="legal-modal-updated">Last updated: December 2024</p>
+        
+        <p>Welcome to Greenwood Lake Getaway. By accessing our website or making a reservation, you agree to these Terms of Service.</p>
+        
+        <h3>Reservation & Booking</h3>
+        <ul>
+            <li>All reservations are subject to availability and confirmation</li>
+            <li>A minimum 2-night stay is required</li>
+            <li>Maximum occupancy is 6 guests for the full property</li>
+            <li>Reservations are confirmed once approved by the property owner</li>
+        </ul>
+        
+        <h3>Check-In & Check-Out</h3>
+        <ul>
+            <li>Check-in time: 4:00 PM</li>
+            <li>Check-out time: 11:00 AM</li>
+            <li>Self check-in is available via keypad</li>
+            <li>Early check-in or late check-out may be available upon request</li>
+        </ul>
+        
+        <h3>House Rules</h3>
+        <p>Guests agree to abide by the following rules:</p>
+        <ul>
+            <li>No smoking or vaping on the property</li>
+            <li>No parties or events</li>
+            <li>No pets allowed</li>
+            <li>Quiet hours: 10:00 PM - 8:00 AM</li>
+            <li>Respect neighbors and the surrounding community</li>
+            <li>Report any damages or issues promptly</li>
+        </ul>
+        
+        <h3>Cancellation Policy</h3>
+        <p>Please review our cancellation policy before booking:</p>
+        <ul>
+            <li>Cancellations made 14+ days before check-in: Full refund</li>
+            <li>Cancellations made 7-13 days before check-in: 50% refund</li>
+            <li>Cancellations made less than 7 days before check-in: No refund</li>
+        </ul>
+        
+        <h3>Liability</h3>
+        <p>Guests are responsible for any damages to the property during their stay. Greenwood Lake Getaway is not liable for any injuries, accidents, or loss of personal belongings during your stay.</p>
+        
+        <h3>Short-Term Rental Compliance</h3>
+        <p>This property operates under Short-term Rental Permit Number: 22-11, in compliance with local regulations.</p>
+        
+        <h3>Changes to Terms</h3>
+        <p>We reserve the right to modify these terms at any time. Continued use of our services constitutes acceptance of any changes.</p>
+        
+        <h3>Contact</h3>
+        <p>For questions about these Terms of Service, please contact us through our website.</p>
+    </div>
+</div>
+
+<script>
+    // Privacy Policy Modal
+    const privacyModal = document.getElementById('privacyModal');
+    const closePrivacyModal = document.getElementById('closePrivacyModal');
+    
+    document.querySelectorAll('a[href="#privacy"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            privacyModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    function closePrivacyModalFn() {
+        privacyModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    closePrivacyModal.addEventListener('click', closePrivacyModalFn);
+    privacyModal.addEventListener('click', function(e) {
+        if (e.target === privacyModal) closePrivacyModalFn();
+    });
+
+    // Terms of Service Modal
+    const termsModal = document.getElementById('termsModal');
+    const closeTermsModal = document.getElementById('closeTermsModal');
+    
+    document.querySelectorAll('a[href="#terms"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            termsModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    function closeTermsModalFn() {
+        termsModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    closeTermsModal.addEventListener('click', closeTermsModalFn);
+    termsModal.addEventListener('click', function(e) {
+        if (e.target === termsModal) closeTermsModalFn();
+    });
+
+    // Close both on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (privacyModal.classList.contains('active')) closePrivacyModalFn();
+            if (termsModal.classList.contains('active')) closeTermsModalFn();
+        }
+    });
+</script>
+<!-- END LEGAL MODALS -->
 
 <!-- CONTACT FORM MODAL -->
 <style>
