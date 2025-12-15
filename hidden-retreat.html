@@ -427,73 +427,189 @@
             .mobile-menu { top: 72px; max-height: calc(100vh - 72px); }
         }
         
+        /* Hero Animation Keyframes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
         /* Hero Section */
         .hero-section {
             position: relative;
-            height: 70vh;
-            min-height: 500px;
+            height: 80vh;
+            min-height: 600px;
             margin-top: 104px;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('assets/images/hero-image.jpeg') center/cover;
+            background: linear-gradient(165deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%), url('assets/images/hero-image.jpeg') center/cover;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
             color: white;
+            overflow: hidden;
+        }
+        
+        /* Subtle animated overlay */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(110, 145, 200, 0.1) 0%, transparent 50%, rgba(110, 145, 200, 0.1) 100%);
+            animation: shimmer 8s ease-in-out infinite;
+            background-size: 200% 100%;
+            pointer-events: none;
         }
         
         .hero-content {
-            max-width: 800px;
-            padding: 0 20px;
+            max-width: 900px;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
         }
         
         .hero-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            padding: 8px 20px;
-            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(110, 145, 200, 0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 10px 24px;
+            border-radius: 50px;
             font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 1px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        
+        .hero-badge svg {
+            width: 16px;
+            height: 16px;
         }
         
         .hero-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 52px;
+            font-size: clamp(36px, 6vw, 60px);
             font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            line-height: 1.15;
+            margin-bottom: 24px;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+            letter-spacing: -0.5px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
         }
         
         .hero-subtitle {
-            font-size: 20px;
-            line-height: 1.6;
-            opacity: 0.95;
-            margin-bottom: 32px;
+            font-size: clamp(16px, 2.5vw, 20px);
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
         }
         
         .hero-features {
             display: flex;
             justify-content: center;
-            gap: 32px;
+            gap: 16px;
             flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
         }
         
         .hero-feature {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 16px;
+            gap: 10px;
+            font-size: 15px;
             font-weight: 500;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .hero-feature:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
         }
         
         .hero-feature svg {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
+            color: #6E91C8;
+        }
+        
+        /* Hero CTA Button */
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+            padding: 16px 32px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #6E91C8 0%, #537BA6 100%);
+            border: none;
+            border-radius: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(110, 145, 200, 0.4);
+            animation: fadeInUp 0.8s ease-out 1s both;
+        }
+        
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(110, 145, 200, 0.5);
+        }
+        
+        .hero-cta svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .hero-cta:hover svg {
+            transform: translateX(4px);
         }
         
         /* Content Sections */
@@ -699,14 +815,62 @@
             }
         }
         
-        @media (max-width: 480px) {
-            .hero-features {
-                flex-direction: column;
-                gap: 16px;
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 85vh;
+                min-height: 550px;
+                margin-top: 88px;
             }
             
-            .hero-title {
-                font-size: 28px;
+            .hero-features {
+                gap: 12px;
+            }
+            
+            .hero-feature {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+            
+            .hero-cta {
+                padding: 14px 28px;
+                font-size: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-section {
+                height: auto;
+                min-height: 100vh;
+                margin-top: 72px;
+                padding: 60px 0;
+            }
+            
+            .hero-features {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            
+            .hero-feature {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+            }
+            
+            .hero-badge {
+                font-size: 11px;
+                padding: 8px 18px;
+            }
+            
+            .hero-subtitle {
+                font-size: 15px;
+                padding: 0 10px;
+            }
+            
+            .hero-cta {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
             }
         }
     </style>
@@ -855,9 +1019,12 @@
         <!-- Hero -->
         <section class="hero-section">
             <div class="hero-content">
-                <span class="hero-badge">Private Listing</span>
+                <span class="hero-badge">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    Private Listing
+                </span>
                 <h1 class="hero-title">The Hidden Retreat</h1>
-                <p class="hero-subtitle">A beautiful 3-bedroom, 3-bathroom basement apartment with its own private entrance. Perfect for families or groups seeking comfort and privacy.</p>
+                <p class="hero-subtitle">Your private lakeside escape. A beautifully appointed 3-bedroom apartment with its own entrance—perfect for families seeking comfort, privacy, and unforgettable memories.</p>
                 
                 <div class="hero-features">
                     <div class="hero-feature">
@@ -873,6 +1040,11 @@
                         <span>Sleeps 6</span>
                     </div>
                 </div>
+                
+                <a href="https://greenwood-lake-getaway-production-30b8.up.railway.app/booking?propertyId=hidden-retreat" class="hero-cta">
+                    Check Availability
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
             </div>
         </section>
         
