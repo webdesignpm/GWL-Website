@@ -1,0 +1,1055 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>The Hidden Retreat | Private Listing</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link href="assets/images/logo.svg" rel="icon" media="(prefers-color-scheme: light)">
+    <link href="assets/images/logo.svg" rel="icon" media="(prefers-color-scheme: dark)">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           PASSWORD CONFIGURATION
+           Change the password below as needed.
+           Users will need to refresh to use new password.
+           ========================================== */
+        
+        :root {
+            --site-gradient: linear-gradient(180deg, #4AA6A4 0%, #537BA6 100%);
+            --site-gradient-hover: linear-gradient(180deg, #52B4B2 39.83%, #6189B4 100%);
+            --text-dark: #1A1A1A;
+            --text-light: #FFFFFF;
+            --bg-overlay: rgba(3, 24, 24, 0.8);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+        
+        /* ==========================================
+           PASSWORD GATE STYLES
+           ========================================== */
+        .password-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--site-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .password-gate.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .password-container {
+            background: white;
+            padding: 48px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+        }
+        
+        .password-logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 24px;
+        }
+        
+        .password-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+        
+        .password-subtitle {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        
+        .password-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-family: 'Open Sans', sans-serif;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .password-input:focus {
+            border-color: #4AA6A4;
+            box-shadow: 0 0 0 3px rgba(74, 166, 164, 0.15);
+        }
+        
+        .password-input.error {
+            border-color: #e74c3c;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        
+        .password-submit {
+            width: 100%;
+            padding: 16px 32px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: var(--site-gradient);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .password-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74, 166, 164, 0.4);
+            background: var(--site-gradient-hover);
+        }
+        
+        .password-submit:active {
+            transform: translateY(0);
+        }
+        
+        .password-error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .password-error.visible {
+            opacity: 1;
+        }
+        
+        .password-hint {
+            font-size: 13px;
+            color: #999;
+            margin-top: 24px;
+        }
+        
+        /* ==========================================
+           MAIN CONTENT (Hidden until authenticated)
+           ========================================== */
+        .main-content {
+            display: none;
+        }
+        
+        .main-content.visible {
+            display: block;
+        }
+        
+        /* ==========================================
+           NAVBAR STYLES
+           ========================================== */
+        .custom-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 104px;
+            background: linear-gradient(180deg, #4AA6A4 0%, #537BA6 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            isolation: isolate;
+            z-index: 1000;
+        }
+
+        .navbar-middle-frame {
+            position: absolute;
+            height: 64px;
+            left: 0;
+            right: 0;
+            top: calc(50% - 64px/2);
+            background: rgba(3, 24, 24, 0.8);
+            z-index: 0;
+        }
+
+        .custom-navbar-inner {
+            position: relative;
+            max-width: 1800px;
+            width: 100%;
+            margin: 0 auto;
+            height: 100%;
+            padding: 0 20px;
+            z-index: 1;
+        }
+
+        .navbar-logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            width: 180px;
+            height: 104px;
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .navbar-logo:hover { opacity: 0.8; }
+        .navbar-logo img { width: 100%; height: auto; max-height: 100%; object-fit: contain; }
+
+        .navbar-content {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            max-width: 1440px;
+            height: 64px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            padding: 0 48px;
+        }
+
+        .navbar-left {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 48px;
+            flex: 1;
+            padding-right: 120px;
+        }
+
+        .navbar-right {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 38px;
+            flex: 1;
+            padding-left: 100px;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 4px;
+            min-height: 44px;
+            text-decoration: none;
+            color: #FFFFFF;
+            font-family: 'Montserrat', Helvetica;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 18px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .nav-link span { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-link:hover { opacity: 0.9; transform: translateY(-1px); }
+        .nav-link:hover span { transform: scale(1.08); }
+        .nav-link:hover .nav-icon { filter: brightness(1.2) sepia(0.4) saturate(1.5) hue-rotate(130deg); }
+        .nav-link:active { transform: translateY(0); }
+
+        .nav-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .nav-icon svg { width: 100%; height: 100%; }
+        img.nav-icon { width: 32px; height: 32px; min-width: 32px; min-height: 32px; display: block; object-fit: contain; object-position: center; flex-shrink: 0; transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        .navbar-cta {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 32px;
+            max-width: 135px;
+            min-height: 56px;
+            margin-left: 38px;
+            background: linear-gradient(180deg, #4AA6A4 39.83%, #537BA6 100%);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 40px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+            color: #FDFDFE;
+            font-family: 'Montserrat', Helvetica;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 20px;
+            letter-spacing: 0.3px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: normal;
+            flex-shrink: 0;
+        }
+
+        .navbar-cta:hover { transform: translateY(-2px); box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25); background: linear-gradient(180deg, #52B4B2 39.83%, #6189B4 100%); }
+        .navbar-cta:active { transform: translateY(0); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); }
+
+        .mobile-cta-button {
+            display: none;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(180deg, #4AA6A4 39.83%, #537BA6 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 3;
+            text-decoration: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-cta-button:hover { transform: translateY(-50%) scale(1.05); box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25); }
+        .mobile-cta-button .cta-short-text { display: none; }
+        .mobile-cta-button .cta-full-text { display: inline; }
+
+        .mobile-menu-toggle {
+            display: none;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 10px;
+            min-width: 44px;
+            min-height: 44px;
+            transition: opacity 0.3s ease;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        .mobile-menu-toggle:hover { opacity: 0.8; }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 104px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, #4AA6A4 0%, #537BA6 100%);
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            max-height: calc(100vh - 104px);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active { display: block; }
+        .mobile-nav-links { display: flex; flex-direction: column; gap: 12px; }
+        .mobile-menu .nav-link { padding: 14px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.08); min-height: 56px; transition: all 0.2s ease; }
+        .mobile-menu .nav-link:hover { background: rgba(255, 255, 255, 0.15); transform: none; }
+        .mobile-menu .navbar-cta { width: 100%; margin-top: 8px; margin-left: 0; min-height: 56px; }
+
+        @media (max-width: 1024px) {
+            .navbar-content { display: none; }
+            .mobile-menu-toggle { display: flex; }
+            .mobile-cta-button { display: inline-flex; }
+            .navbar-logo { width: 150px; }
+        }
+
+        @media (max-width: 768px) {
+            .custom-navbar { height: 88px; }
+            .navbar-middle-frame { height: 56px; top: calc(50% - 56px/2); }
+            .navbar-logo { width: 140px; height: 88px; }
+            .mobile-menu { top: 88px; max-height: calc(100vh - 88px); }
+        }
+
+        @media (max-width: 480px) {
+            .custom-navbar { height: 72px; }
+            .navbar-middle-frame { height: 48px; top: calc(50% - 48px/2); }
+            .navbar-logo { width: 100px; height: 72px; }
+            .mobile-cta-button { right: 10px; padding: 6px 12px; font-size: 11px; }
+            .mobile-cta-button .cta-full-text { display: none; }
+            .mobile-cta-button .cta-short-text { display: inline; }
+            .mobile-menu { top: 72px; max-height: calc(100vh - 72px); }
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 70vh;
+            min-height: 500px;
+            margin-top: 104px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('assets/images/hero-image.jpeg') center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        
+        .hero-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            line-height: 1.6;
+            opacity: 0.95;
+            margin-bottom: 32px;
+        }
+        
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .hero-feature svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: #666;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 48px;
+            line-height: 1.6;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+        
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--site-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            color: white;
+        }
+        
+        .feature-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+        
+        .feature-desc {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Gallery Placeholder */
+        .gallery-placeholder {
+            background: white;
+            border-radius: 16px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .gallery-placeholder-icon {
+            width: 80px;
+            height: 80px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+        
+        .gallery-placeholder-icon svg {
+            width: 40px;
+            height: 40px;
+            color: #999;
+        }
+        
+        .gallery-placeholder-text {
+            font-size: 18px;
+            color: #666;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: var(--site-gradient);
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .cta-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .cta-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 18px 48px;
+            background: white;
+            color: #4AA6A4;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Footer */
+        .simple-footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .footer-text {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .footer-link {
+            color: #4AA6A4;
+            text-decoration: none;
+        }
+        
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .password-container {
+                padding: 32px 24px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 17px;
+            }
+            
+            .hero-section {
+                height: 60vh;
+                min-height: 450px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .content-section {
+                padding: 60px 20px;
+            }
+            
+            .cta-title {
+                font-size: 28px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-features {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .hero-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ==========================================
+         PASSWORD GATE
+         ========================================== -->
+    <div class="password-gate" id="passwordGate">
+        <div class="password-container">
+            <img src="assets/images/logo.png" alt="Logo" class="password-logo">
+            <h1 class="password-title">Private Listing</h1>
+            <p class="password-subtitle">This property is available by invitation only. Please enter the access code provided to you.</p>
+            
+            <form class="password-form" id="passwordForm">
+                <input 
+                    type="password" 
+                    class="password-input" 
+                    id="passwordInput" 
+                    placeholder="Enter access code"
+                    autocomplete="off"
+                    autofocus
+                >
+                <button type="submit" class="password-submit">Access Property</button>
+                <p class="password-error" id="passwordError">Incorrect access code. Please try again.</p>
+            </form>
+            
+            <p class="password-hint">Don't have an access code? <a href="index.html" class="footer-link">Return to main site</a></p>
+        </div>
+    </div>
+    
+    <!-- ==========================================
+         MAIN CONTENT (Protected)
+         ========================================== -->
+    <div class="main-content" id="mainContent">
+        <!-- Navbar -->
+        <nav class="custom-navbar" role="navigation" aria-label="Main navigation">
+            <div class="navbar-middle-frame"></div>
+            <div class="custom-navbar-inner">
+                <a href="index.html" class="navbar-logo" aria-label="Greenwood Lake Getaway Home">
+                    <img src="assets/images/logo.svg" alt="Greenwood Lake Getaway Logo">
+                </a>
+
+                <div class="navbar-content">
+                    <div class="navbar-left">
+                        <a href="index.html" class="nav-link" aria-label="Home">
+                            <img src="assets/icons/home-icon.svg" alt="Home" class="nav-icon">
+                            <span>Home</span>
+                        </a>
+                        <a href="area.html" class="nav-link" aria-label="Area">
+                            <img src="assets/icons/area-icon.svg" alt="Area" class="nav-icon">
+                            <span>Area</span>
+                        </a>
+                        <a href="#availability" class="nav-link" aria-label="Availability">
+                            <img src="assets/icons/availability-icon.svg" alt="Availability" class="nav-icon">
+                            <span>Availability</span>
+                        </a>
+                    </div>
+
+                    <div class="navbar-right">
+                        <a href="#pricing" class="nav-link" aria-label="Rates">
+                            <img src="assets/icons/rates-icon.svg" alt="Rates" class="nav-icon">
+                            <span>Rates</span>
+                        </a>
+                        <a href="index.html#contact" class="nav-link" aria-label="Contact us">
+                            <img src="assets/icons/contact-icon.svg" alt="Contact us" class="nav-icon">
+                            <span>Contact us</span>
+                        </a>
+                        <a href="https://greenwood-lake-getaway-production-30b8.up.railway.app/booking?propertyId=hidden-retreat" class="navbar-cta" aria-label="Request reservation">
+                            Request Reservation
+                        </a>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 12H21M3 6H21M3 18H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+                <a href="https://greenwood-lake-getaway-production-30b8.up.railway.app/booking?propertyId=hidden-retreat" class="mobile-cta-button" aria-label="Request reservation">
+                    <span class="cta-full-text">Request Reservation</span>
+                    <span class="cta-short-text">Reserve</span>
+                </a>
+            </div>
+
+            <div class="mobile-menu" id="mobileMenu">
+                <div class="mobile-nav-links">
+                    <a href="index.html" class="nav-link" aria-label="Home">
+                        <img src="assets/icons/home-icon.svg" alt="Home" class="nav-icon">
+                        <span>Home</span>
+                    </a>
+                    <a href="area.html" class="nav-link" aria-label="Area">
+                        <img src="assets/icons/area-icon.svg" alt="Area" class="nav-icon">
+                        <span>Area</span>
+                    </a>
+                    <a href="#availability" class="nav-link" aria-label="Availability">
+                        <img src="assets/icons/availability-icon.svg" alt="Availability" class="nav-icon">
+                        <span>Availability</span>
+                    </a>
+                    <a href="#pricing" class="nav-link" aria-label="Rates">
+                        <img src="assets/icons/rates-icon.svg" alt="Rates" class="nav-icon">
+                        <span>Rates</span>
+                    </a>
+                    <a href="index.html#contact" class="nav-link" aria-label="Contact us">
+                        <img src="assets/icons/contact-icon.svg" alt="Contact us" class="nav-icon">
+                        <span>Contact us</span>
+                    </a>
+                    <a href="https://greenwood-lake-getaway-production-30b8.up.railway.app/booking?propertyId=hidden-retreat" class="navbar-cta" aria-label="Request reservation">
+                        Request Reservation
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <script>
+        (function() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            if (mobileMenuToggle && mobileMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    const isActive = mobileMenu.classList.toggle('active');
+                    this.setAttribute('aria-expanded', isActive);
+                    const icon = this.querySelector('svg');
+                    if (isActive) {
+                        icon.innerHTML = '<path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+                    } else {
+                        icon.innerHTML = '<path d="M3 12H21M3 6H21M3 18H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+                    }
+                });
+
+                const mobileLinks = mobileMenu.querySelectorAll('.nav-link, .navbar-cta');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.remove('active');
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                        const icon = mobileMenuToggle.querySelector('svg');
+                        icon.innerHTML = '<path d="M3 12H21M3 6H21M3 18H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+                    });
+                });
+            }
+        })();
+        </script>
+        
+        <!-- Hero -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <span class="hero-badge">Private Listing</span>
+                <h1 class="hero-title">The Hidden Retreat</h1>
+                <p class="hero-subtitle">A beautiful 3-bedroom, 3-bathroom basement apartment with its own private entrance. Perfect for families or groups seeking comfort and privacy.</p>
+                
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        <span>3 Bedrooms</span>
+                    </div>
+                    <div class="hero-feature">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path></svg>
+                        <span>3 Bathrooms</span>
+                    </div>
+                    <div class="hero-feature">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <span>Sleeps 6</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Features -->
+        <section class="content-section">
+            <h2 class="section-title">Apartment Features</h2>
+            <p class="section-subtitle">Everything you need for a comfortable and memorable stay</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                    </div>
+                    <h3 class="feature-title">Private Entrance</h3>
+                    <p class="feature-desc">Enjoy complete privacy with your own dedicated entrance to the apartment.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </div>
+                    <h3 class="feature-title">Full Kitchen</h3>
+                    <p class="feature-desc">Fully equipped kitchen with modern appliances for preparing meals during your stay.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
+                    </div>
+                    <h3 class="feature-title">High-Speed WiFi</h3>
+                    <p class="feature-desc">Stay connected with reliable high-speed internet throughout the apartment.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="feature-title">Smart TV</h3>
+                    <p class="feature-desc">Large smart TV with streaming services for entertainment and relaxation.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                    </div>
+                    <h3 class="feature-title">Climate Control</h3>
+                    <p class="feature-desc">Individual heating and cooling controls for year-round comfort.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
+                    <h3 class="feature-title">Great Location</h3>
+                    <p class="feature-desc">Just 20 minutes from Warwick Bethel with easy access to local attractions.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Gallery Placeholder -->
+        <section class="content-section" style="background: #f5f5f5; max-width: 100%; padding: 80px 20px;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <h2 class="section-title">Photo Gallery</h2>
+                <p class="section-subtitle">Take a virtual tour of the apartment</p>
+                
+                <div class="gallery-placeholder">
+                    <div class="gallery-placeholder-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <p class="gallery-placeholder-text">Photo gallery coming soon</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Pricing Section -->
+        <section class="content-section" id="pricing">
+            <h2 class="section-title">Rates</h2>
+            <p class="section-subtitle">Simple, transparent pricing for The Hidden Retreat</p>
+            
+            <div style="max-width: 500px; margin: 40px auto; background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <h3 style="font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 600; color: #1a1a1a; margin-bottom: 24px; text-align: center;">Full Apartment</h3>
+                <p style="text-align: center; color: #666; margin-bottom: 24px;">3 Bedrooms • 3 Bathrooms • Sleeps 6</p>
+                
+                <div style="display: flex; justify-content: space-around; margin-bottom: 24px;">
+                    <div style="text-align: center;">
+                        <p style="font-size: 14px; color: #666; margin-bottom: 4px;">Peak Season</p>
+                        <p style="font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 700; color: #4AA6A4;">$349<span style="font-size: 14px; font-weight: 400;">/night</span></p>
+                        <p style="font-size: 12px; color: #999;">May - November</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <p style="font-size: 14px; color: #666; margin-bottom: 4px;">Off-Peak</p>
+                        <p style="font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 700; color: #537BA6;">$299<span style="font-size: 14px; font-weight: 400;">/night</span></p>
+                        <p style="font-size: 12px; color: #999;">December - April</p>
+                    </div>
+                </div>
+                
+                <p style="text-align: center; font-size: 14px; color: #666; padding-top: 16px; border-top: 1px solid #eee;">Cleaning Fee: $225 • 5% Occupancy Tax</p>
+            </div>
+        </section>
+        
+        <!-- Availability Section -->
+        <section class="cta-section" id="availability">
+            <h2 class="cta-title">Check Availability</h2>
+            <p class="cta-subtitle">View available dates and reserve The Hidden Retreat.</p>
+            <a href="https://greenwood-lake-getaway-production-30b8.up.railway.app/booking?propertyId=hidden-retreat" class="cta-button" id="bookNowBtn">Request Reservation</a>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="simple-footer">
+            <p class="footer-text">This is a private listing. Please do not share access details.</p>
+            <p class="footer-text" style="margin-top: 12px;">
+                <a href="index.html" class="footer-link">Return to Greenwood Lake Getaway</a>
+            </p>
+        </footer>
+    </div>
+    
+    <!-- ==========================================
+         PASSWORD AUTHENTICATION SCRIPT
+         ========================================== -->
+    <script>
+        // ==========================================
+        // PASSWORD CONFIGURATION
+        // Change this password as needed
+        // ==========================================
+        const ACCESS_PASSWORD = 'hidden2024';
+        // ==========================================
+        
+        const SESSION_KEY = 'hidden_retreat_auth';
+        
+        // Check if already authenticated this session
+        function isAuthenticated() {
+            return sessionStorage.getItem(SESSION_KEY) === 'true';
+        }
+        
+        // Show main content
+        function showContent() {
+            document.getElementById('passwordGate').classList.add('hidden');
+            document.getElementById('mainContent').classList.add('visible');
+        }
+        
+        // If already authenticated, show content immediately
+        if (isAuthenticated()) {
+            showContent();
+        }
+        
+        // Handle password form submission
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('passwordError');
+            const enteredPassword = input.value.trim();
+            
+            if (enteredPassword === ACCESS_PASSWORD) {
+                // Store authentication in session
+                sessionStorage.setItem(SESSION_KEY, 'true');
+                showContent();
+            } else {
+                // Show error
+                input.classList.add('error');
+                error.classList.add('visible');
+                
+                // Clear error state after animation
+                setTimeout(() => {
+                    input.classList.remove('error');
+                }, 500);
+                
+                // Clear input
+                input.value = '';
+                input.focus();
+            }
+        });
+        
+        // Clear error when typing
+        document.getElementById('passwordInput').addEventListener('input', function() {
+            document.getElementById('passwordError').classList.remove('visible');
+        });
+    </script>
+</body>
+</html>
