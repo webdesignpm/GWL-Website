@@ -688,35 +688,219 @@
             line-height: 1.6;
         }
         
-        /* Gallery Placeholder */
-        .gallery-placeholder {
-            background: white;
-            border-radius: 16px;
-            padding: 60px 40px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        /* Photo Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 40px;
         }
         
-        .gallery-placeholder-icon {
-            width: 80px;
-            height: 80px;
-            background: #f0f0f0;
-            border-radius: 50%;
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 4/3;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 16px;
+        }
+        
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-item-caption {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 100000;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 24px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
         
-        .gallery-placeholder-icon svg {
-            width: 40px;
-            height: 40px;
-            color: #999;
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
         }
         
-        .gallery-placeholder-text {
-            font-size: 18px;
-            color: #666;
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, transform 0.3s ease;
+            z-index: 100001;
+        }
+        
+        .lightbox-close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+        
+        .lightbox-close svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, transform 0.3s ease;
+            z-index: 100001;
+        }
+        
+        .lightbox-nav:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .lightbox-nav svg {
+            width: 28px;
+            height: 28px;
+            color: white;
+        }
+        
+        .lightbox-prev {
+            left: 20px;
+        }
+        
+        .lightbox-next {
+            right: 20px;
+        }
+        
+        .lightbox-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            padding: 12px 24px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .lightbox-counter {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .lightbox-nav {
+                width: 44px;
+                height: 44px;
+            }
+            
+            .lightbox-prev {
+                left: 10px;
+            }
+            
+            .lightbox-next {
+                right: 10px;
+            }
+            
+            .lightbox-close {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         /* CTA Section */
@@ -1096,20 +1280,94 @@
             </div>
         </section>
         
-        <!-- Gallery Placeholder -->
-        <section class="content-section" style="background: #f5f5f5; max-width: 100%; padding: 80px 20px;">
+        <!-- Photo Gallery -->
+        <section class="content-section" id="gallery" style="background: #f5f5f5; max-width: 100%; padding: 80px 20px;">
             <div style="max-width: 1200px; margin: 0 auto;">
                 <h2 class="section-title">Photo Gallery</h2>
                 <p class="section-subtitle">Take a virtual tour of the apartment</p>
                 
-                <div class="gallery-placeholder">
-                    <div class="gallery-placeholder-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-index="0" data-caption="Kitchen & Dining Area">
+                        <img src="assets/images/hidden-retreat/hr-01-kitchen-dining.jpg" alt="Kitchen and dining area" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Kitchen & Dining</span></div>
                     </div>
-                    <p class="gallery-placeholder-text">Photo gallery coming soon</p>
+                    <div class="gallery-item" data-index="1" data-caption="Living Room with Wood Stove">
+                        <img src="assets/images/hidden-retreat/hr-02-living-room-stove.jpg" alt="Living room with wood stove" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Living Room</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="2" data-caption="Living Room Seating Area">
+                        <img src="assets/images/hidden-retreat/hr-03-living-room-sofa.jpg" alt="Living room with sofa" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Seating Area</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="3" data-caption="Primary Bedroom - King Bed">
+                        <img src="assets/images/hidden-retreat/hr-04-bedroom-1-king.jpg" alt="Primary bedroom with king bed" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Primary Bedroom</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="4" data-caption="Primary Bedroom - Alternate View">
+                        <img src="assets/images/hidden-retreat/hr-05-bedroom-1-alt.jpg" alt="Primary bedroom alternate view" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Primary Bedroom</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="5" data-caption="En-Suite Bathroom with Walk-in Shower">
+                        <img src="assets/images/hidden-retreat/hr-06-bathroom-1-shower.jpg" alt="En-suite bathroom with shower" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">En-Suite Bath</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="6" data-caption="Full Kitchen">
+                        <img src="assets/images/hidden-retreat/hr-07-kitchen-wide.jpg" alt="Full kitchen view" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Full Kitchen</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="7" data-caption="Kitchen & Dining - Alternate View">
+                        <img src="assets/images/hidden-retreat/hr-08-kitchen-dining-alt.jpg" alt="Kitchen and dining alternate view" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Kitchen & Dining</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="8" data-caption="Living Room with Smart TV">
+                        <img src="assets/images/hidden-retreat/hr-09-living-room-tv.jpg" alt="Living room with TV and staircase" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Entertainment Area</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="9" data-caption="Open Floor Plan Overview">
+                        <img src="assets/images/hidden-retreat/hr-10-living-room-overview.jpg" alt="Living room overview" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Open Floor Plan</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="10" data-caption="Living Room - Alternate View">
+                        <img src="assets/images/hidden-retreat/hr-11-living-room-tv-alt.jpg" alt="Living room with TV alternate view" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Living Room</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="11" data-caption="Second Bathroom">
+                        <img src="assets/images/hidden-retreat/hr-12-bathroom-2.jpg" alt="Second bathroom" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Bathroom</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="12" data-caption="Second Bedroom - Queen Bed">
+                        <img src="assets/images/hidden-retreat/hr-13-bedroom-2-queen.jpg" alt="Second bedroom with queen bed" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Second Bedroom</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="13" data-caption="Third Bathroom - En-Suite">
+                        <img src="assets/images/hidden-retreat/hr-14-bathroom-3-ensuite.jpg" alt="Third bathroom en-suite" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">En-Suite Bath</span></div>
+                    </div>
+                    <div class="gallery-item" data-index="14" data-caption="Third Bedroom with Desk">
+                        <img src="assets/images/hidden-retreat/hr-15-bedroom-3-desk.jpg" alt="Third bedroom with desk" loading="lazy">
+                        <div class="gallery-item-overlay"><span class="gallery-item-caption">Third Bedroom</span></div>
+                    </div>
                 </div>
             </div>
         </section>
+        
+        <!-- Lightbox Modal -->
+        <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image gallery">
+            <button class="lightbox-close" aria-label="Close gallery">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <button class="lightbox-nav lightbox-prev" aria-label="Previous image">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <div class="lightbox-content">
+                <img id="lightbox-img" src="" alt="">
+            </div>
+            <button class="lightbox-nav lightbox-next" aria-label="Next image">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+            <div class="lightbox-counter" id="lightbox-counter"></div>
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
         
         <!-- Availability Section -->
         <section class="cta-section" id="availability">
@@ -1188,6 +1446,124 @@
         document.getElementById('passwordInput').addEventListener('input', function() {
             document.getElementById('passwordError').classList.remove('visible');
         });
+    </script>
+    
+    <!-- ==========================================
+         LIGHTBOX GALLERY SCRIPT
+         ========================================== -->
+    <script>
+    (function() {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const lightboxCounter = document.getElementById('lightbox-counter');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const closeBtn = document.querySelector('.lightbox-close');
+        const prevBtn = document.querySelector('.lightbox-prev');
+        const nextBtn = document.querySelector('.lightbox-next');
+        
+        let currentIndex = 0;
+        const totalImages = galleryItems.length;
+        
+        // Build array of image data
+        const images = Array.from(galleryItems).map(item => ({
+            src: item.querySelector('img').src,
+            caption: item.dataset.caption || ''
+        }));
+        
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightbox();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function updateLightbox() {
+            lightboxImg.src = images[currentIndex].src;
+            lightboxImg.alt = images[currentIndex].caption;
+            lightboxCaption.textContent = images[currentIndex].caption;
+            lightboxCounter.textContent = `${currentIndex + 1} / ${totalImages}`;
+        }
+        
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % totalImages;
+            updateLightbox();
+        }
+        
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+            updateLightbox();
+        }
+        
+        // Event listeners for gallery items
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => openLightbox(index));
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightbox(index);
+                }
+            });
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('role', 'button');
+        });
+        
+        // Navigation buttons
+        closeBtn.addEventListener('click', closeLightbox);
+        prevBtn.addEventListener('click', prevImage);
+        nextBtn.addEventListener('click', nextImage);
+        
+        // Click outside to close
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            switch (e.key) {
+                case 'Escape':
+                    closeLightbox();
+                    break;
+                case 'ArrowLeft':
+                    prevImage();
+                    break;
+                case 'ArrowRight':
+                    nextImage();
+                    break;
+            }
+        });
+        
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        lightbox.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        lightbox.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextImage();
+                } else {
+                    prevImage();
+                }
+            }
+        }, { passive: true });
+    })();
     </script>
 </body>
 </html>
